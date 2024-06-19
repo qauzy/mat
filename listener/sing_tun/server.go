@@ -453,12 +453,16 @@ func (l *Listener) ruleUpdateCallback(ruleProvider provider.RuleProvider) {
 	}
 }
 
+type toIpCidr interface {
+	ToIpCidr() *netipx.IPSet
+}
+
 func (l *Listener) updateRule(ruleProvider provider.RuleProvider, exclude bool, update bool) {
 	l.ruleUpdateMutex.Lock()
 	defer l.ruleUpdateMutex.Unlock()
 	name := ruleProvider.Name()
 	switch rp := ruleProvider.Strategy().(type) {
-	case interface{ ToIpCidr() *netipx.IPSet }:
+	case toIpCidr:
 		if !exclude {
 			ipCidr := rp.ToIpCidr()
 			if ipCidr != nil {
