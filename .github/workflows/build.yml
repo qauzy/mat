@@ -342,7 +342,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          ref: Meta
+          ref: main
           fetch-depth: '0'
           fetch-tags: 'true'
 
@@ -352,7 +352,7 @@ jobs:
           git fetch --tags
           echo "PREVERSION=$(git describe --tags --abbrev=0 HEAD)" >> $GITHUB_ENV
 
-      - name: Merge Alpha branch into Meta
+      - name: Merge Alpha branch into main
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
