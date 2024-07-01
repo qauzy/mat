@@ -4,6 +4,7 @@ import (
 	"io"
 	"net"
 	"net/netip"
+	"strings"
 	"time"
 
 	"github.com/metacubex/mihomo/common/atomic"
@@ -52,7 +53,7 @@ func (tt *tcpTracker) Info() *TrackerInfo {
 func (tt *tcpTracker) Read(b []byte) (int, error) {
 	n, err := tt.Conn.Read(b)
 	download := int64(n)
-	if tt.pushToManager {
+	if tt.pushToManager && !strings.Contains(tt.Chain.String(), "DIRECT") {
 		tt.manager.PushDownloaded(download)
 	}
 	tt.DownloadTotal.Add(download)
@@ -62,7 +63,7 @@ func (tt *tcpTracker) Read(b []byte) (int, error) {
 func (tt *tcpTracker) ReadBuffer(buffer *buf.Buffer) (err error) {
 	err = tt.Conn.ReadBuffer(buffer)
 	download := int64(buffer.Len())
-	if tt.pushToManager {
+	if tt.pushToManager && !strings.Contains(tt.Chain.String(), "DIRECT") {
 		tt.manager.PushDownloaded(download)
 	}
 	tt.DownloadTotal.Add(download)
@@ -71,7 +72,7 @@ func (tt *tcpTracker) ReadBuffer(buffer *buf.Buffer) (err error) {
 
 func (tt *tcpTracker) UnwrapReader() (io.Reader, []N.CountFunc) {
 	return tt.Conn, []N.CountFunc{func(download int64) {
-		if tt.pushToManager {
+		if tt.pushToManager && !strings.Contains(tt.Chain.String(), "DIRECT") {
 			tt.manager.PushDownloaded(download)
 		}
 		tt.DownloadTotal.Add(download)
@@ -81,7 +82,7 @@ func (tt *tcpTracker) UnwrapReader() (io.Reader, []N.CountFunc) {
 func (tt *tcpTracker) Write(b []byte) (int, error) {
 	n, err := tt.Conn.Write(b)
 	upload := int64(n)
-	if tt.pushToManager {
+	if tt.pushToManager && !strings.Contains(tt.Chain.String(), "DIRECT") {
 		tt.manager.PushUploaded(upload)
 	}
 	tt.UploadTotal.Add(upload)
@@ -91,7 +92,7 @@ func (tt *tcpTracker) Write(b []byte) (int, error) {
 func (tt *tcpTracker) WriteBuffer(buffer *buf.Buffer) (err error) {
 	upload := int64(buffer.Len())
 	err = tt.Conn.WriteBuffer(buffer)
-	if tt.pushToManager {
+	if tt.pushToManager && !strings.Contains(tt.Chain.String(), "DIRECT") {
 		tt.manager.PushUploaded(upload)
 	}
 	tt.UploadTotal.Add(upload)
@@ -100,7 +101,7 @@ func (tt *tcpTracker) WriteBuffer(buffer *buf.Buffer) (err error) {
 
 func (tt *tcpTracker) UnwrapWriter() (io.Writer, []N.CountFunc) {
 	return tt.Conn, []N.CountFunc{func(upload int64) {
-		if tt.pushToManager {
+		if tt.pushToManager && !strings.Contains(tt.Chain.String(), "DIRECT") {
 			tt.manager.PushUploaded(upload)
 		}
 		tt.UploadTotal.Add(upload)
@@ -151,7 +152,7 @@ func NewTCPTracker(conn C.Conn, manager *Manager, metadata *C.Metadata, rule C.R
 		pushToManager: pushToManager,
 	}
 
-	if pushToManager {
+	if pushToManager && !strings.Contains(t.Chain.String(), "DIRECT") {
 		if uploadTotal > 0 {
 			manager.PushUploaded(uploadTotal)
 		}
@@ -188,7 +189,7 @@ func (ut *udpTracker) Info() *TrackerInfo {
 func (ut *udpTracker) ReadFrom(b []byte) (int, net.Addr, error) {
 	n, addr, err := ut.PacketConn.ReadFrom(b)
 	download := int64(n)
-	if ut.pushToManager {
+	if ut.pushToManager && !strings.Contains(ut.Chain.String(), "DIRECT") {
 		ut.manager.PushDownloaded(download)
 	}
 	ut.DownloadTotal.Add(download)
@@ -198,7 +199,7 @@ func (ut *udpTracker) ReadFrom(b []byte) (int, net.Addr, error) {
 func (ut *udpTracker) WaitReadFrom() (data []byte, put func(), addr net.Addr, err error) {
 	data, put, addr, err = ut.PacketConn.WaitReadFrom()
 	download := int64(len(data))
-	if ut.pushToManager {
+	if ut.pushToManager && !strings.Contains(ut.Chain.String(), "DIRECT") {
 		ut.manager.PushDownloaded(download)
 	}
 	ut.DownloadTotal.Add(download)
@@ -208,7 +209,7 @@ func (ut *udpTracker) WaitReadFrom() (data []byte, put func(), addr net.Addr, er
 func (ut *udpTracker) WriteTo(b []byte, addr net.Addr) (int, error) {
 	n, err := ut.PacketConn.WriteTo(b, addr)
 	upload := int64(n)
-	if ut.pushToManager {
+	if ut.pushToManager && !strings.Contains(ut.Chain.String(), "DIRECT") {
 		ut.manager.PushUploaded(upload)
 	}
 	ut.UploadTotal.Add(upload)
@@ -242,7 +243,7 @@ func NewUDPTracker(conn C.PacketConn, manager *Manager, metadata *C.Metadata, ru
 		pushToManager: pushToManager,
 	}
 
-	if pushToManager {
+	if pushToManager && !strings.Contains(ut.Chain.String(), "DIRECT") {
 		if uploadTotal > 0 {
 			manager.PushUploaded(uploadTotal)
 		}

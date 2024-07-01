@@ -165,7 +165,7 @@ func (p *Proxy) MarshalJSON() ([]byte, error) {
 // implements C.Proxy
 func (p *Proxy) URLTest(ctx context.Context, url string, expectedStatus utils.IntRanges[uint16]) (t uint16, err error) {
 	var satisfied bool
-
+	// 延迟处理和历史记录更新
 	defer func() {
 		alive := err == nil
 		record := C.DelayHistory{Time: time.Now()}
