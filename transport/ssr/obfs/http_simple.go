@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/metacubex/mihomo/common/pool"
+	"github.com/qauzy/mat/common/pool"
 
 	"github.com/metacubex/randv2"
 )

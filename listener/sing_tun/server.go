@@ -12,15 +12,15 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/metacubex/mihomo/adapter/inbound"
-	"github.com/metacubex/mihomo/component/dialer"
-	"github.com/metacubex/mihomo/component/iface"
-	"github.com/metacubex/mihomo/component/resolver"
-	C "github.com/metacubex/mihomo/constant"
-	"github.com/metacubex/mihomo/constant/provider"
-	LC "github.com/metacubex/mihomo/listener/config"
-	"github.com/metacubex/mihomo/listener/sing"
-	"github.com/metacubex/mihomo/log"
+	"github.com/qauzy/mat/adapter/inbound"
+	"github.com/qauzy/mat/component/dialer"
+	"github.com/qauzy/mat/component/iface"
+	"github.com/qauzy/mat/component/resolver"
+	C "github.com/qauzy/mat/constant"
+	"github.com/qauzy/mat/constant/provider"
+	LC "github.com/qauzy/mat/listener/config"
+	"github.com/qauzy/mat/listener/sing"
+	"github.com/qauzy/mat/log"
 
 	tun "github.com/metacubex/sing-tun"
 	"github.com/sagernet/sing/common"
@@ -333,7 +333,7 @@ func New(options LC.Tun, tunnel C.Tunnel, additions ...inbound.Addition) (l *Lis
 			Logger:                 log.SingLogger,
 			NetworkMonitor:         networkUpdateMonitor,
 			InterfaceFinder:        interfaceFinder,
-			TableName:              "mihomo",
+			TableName:              "mat",
 			DisableNFTables:        dErr == nil && disableNFTables,
 			RouteAddressSet:        &l.routeAddressSet,
 			RouteExcludeAddressSet: &l.routeExcludeAddressSet,

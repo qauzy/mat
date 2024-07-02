@@ -8,8 +8,8 @@ import (
 	"os"
 	"time"
 
-	mihomoHttp "github.com/metacubex/mihomo/component/http"
-	types "github.com/metacubex/mihomo/constant/provider"
+	matHttp "github.com/qauzy/mat/component/http"
+	types "github.com/qauzy/mat/constant/provider"
 )
 
 type FileVehicle struct {
@@ -62,7 +62,7 @@ func (h *HTTPVehicle) Proxy() string {
 func (h *HTTPVehicle) Read() ([]byte, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*20)
 	defer cancel()
-	resp, err := mihomoHttp.HttpRequestWithProxy(ctx, h.url, http.MethodGet, h.header, nil, h.proxy)
+	resp, err := matHttp.HttpRequestWithProxy(ctx, h.url, http.MethodGet, h.header, nil, h.proxy)
 	if err != nil {
 		return nil, err
 	}

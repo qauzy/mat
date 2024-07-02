@@ -5,8 +5,8 @@ import (
 	"regexp"
 	"strings"
 
-	C "github.com/metacubex/mihomo/constant"
-	"github.com/metacubex/mihomo/rules/common"
+	C "github.com/qauzy/mat/constant"
+	"github.com/qauzy/mat/rules/common"
 
 	list "github.com/bahlo/generic-list-go"
 )

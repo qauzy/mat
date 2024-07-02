@@ -15,7 +15,7 @@ import (
 	"unicode"
 	"unsafe"
 
-	"github.com/metacubex/mihomo/log"
+	"github.com/qauzy/mat/log"
 
 	"github.com/mdlayher/netlink"
 	tun "github.com/metacubex/sing-tun"

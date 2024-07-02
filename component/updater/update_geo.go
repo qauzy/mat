@@ -7,12 +7,12 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/metacubex/mihomo/common/atomic"
-	"github.com/metacubex/mihomo/component/geodata"
-	_ "github.com/metacubex/mihomo/component/geodata/standard"
-	"github.com/metacubex/mihomo/component/mmdb"
-	C "github.com/metacubex/mihomo/constant"
-	"github.com/metacubex/mihomo/log"
+	"github.com/qauzy/mat/common/atomic"
+	"github.com/qauzy/mat/component/geodata"
+	_ "github.com/qauzy/mat/component/geodata/standard"
+	"github.com/qauzy/mat/component/mmdb"
+	C "github.com/qauzy/mat/constant"
+	"github.com/qauzy/mat/log"
 
 	"github.com/oschwald/maxminddb-golang"
 )

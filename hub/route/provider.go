@@ -4,9 +4,9 @@ import (
 	"context"
 	"net/http"
 
-	C "github.com/metacubex/mihomo/constant"
-	"github.com/metacubex/mihomo/constant/provider"
-	"github.com/metacubex/mihomo/tunnel"
+	C "github.com/qauzy/mat/constant"
+	"github.com/qauzy/mat/constant/provider"
+	"github.com/qauzy/mat/tunnel"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/render"

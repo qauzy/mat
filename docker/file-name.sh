@@ -1,5 +1,5 @@
 #!/bin/sh
-os="mihomo-linux-"
+os="mat-linux-"
 case $TARGETPLATFORM in
     "linux/amd64")
         arch="amd64-compatible"

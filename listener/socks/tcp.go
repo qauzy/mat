@@ -4,12 +4,12 @@ import (
 	"io"
 	"net"
 
-	"github.com/metacubex/mihomo/adapter/inbound"
-	N "github.com/metacubex/mihomo/common/net"
-	C "github.com/metacubex/mihomo/constant"
-	authStore "github.com/metacubex/mihomo/listener/auth"
-	"github.com/metacubex/mihomo/transport/socks4"
-	"github.com/metacubex/mihomo/transport/socks5"
+	"github.com/qauzy/mat/adapter/inbound"
+	N "github.com/qauzy/mat/common/net"
+	C "github.com/qauzy/mat/constant"
+	authStore "github.com/qauzy/mat/listener/auth"
+	"github.com/qauzy/mat/transport/socks4"
+	"github.com/qauzy/mat/transport/socks5"
 )
 
 type Listener struct {

@@ -2,7 +2,7 @@
 
 package process
 
-import "github.com/metacubex/mihomo/constant"
+import "github.com/qauzy/mat/constant"
 
 func FindPackageName(metadata *constant.Metadata) (string, error) {
 	return "", nil

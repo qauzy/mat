@@ -3,8 +3,8 @@ package context
 import (
 	"net"
 
-	"github.com/metacubex/mihomo/common/utils"
-	C "github.com/metacubex/mihomo/constant"
+	"github.com/qauzy/mat/common/utils"
+	C "github.com/qauzy/mat/constant"
 
 	"github.com/gofrs/uuid/v5"
 )

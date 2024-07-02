@@ -7,12 +7,12 @@ import (
 	"net"
 	"sync"
 
-	"github.com/metacubex/mihomo/adapter/inbound"
-	"github.com/metacubex/mihomo/common/atomic"
-	N "github.com/metacubex/mihomo/common/net"
-	C "github.com/metacubex/mihomo/constant"
-	"github.com/metacubex/mihomo/transport/socks5"
-	"github.com/metacubex/mihomo/transport/tuic/common"
+	"github.com/qauzy/mat/adapter/inbound"
+	"github.com/qauzy/mat/common/atomic"
+	N "github.com/qauzy/mat/common/net"
+	C "github.com/qauzy/mat/constant"
+	"github.com/qauzy/mat/transport/socks5"
+	"github.com/qauzy/mat/transport/tuic/common"
 
 	"github.com/gofrs/uuid/v5"
 	"github.com/metacubex/quic-go"

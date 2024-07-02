@@ -12,12 +12,12 @@ import (
 	"sync/atomic"
 	"time"
 
-	atomic2 "github.com/metacubex/mihomo/common/atomic"
-	N "github.com/metacubex/mihomo/common/net"
-	"github.com/metacubex/mihomo/common/pool"
-	C "github.com/metacubex/mihomo/constant"
-	"github.com/metacubex/mihomo/log"
-	"github.com/metacubex/mihomo/transport/tuic/common"
+	atomic2 "github.com/qauzy/mat/common/atomic"
+	N "github.com/qauzy/mat/common/net"
+	"github.com/qauzy/mat/common/pool"
+	C "github.com/qauzy/mat/constant"
+	"github.com/qauzy/mat/log"
+	"github.com/qauzy/mat/transport/tuic/common"
 
 	"github.com/metacubex/quic-go"
 	"github.com/metacubex/randv2"

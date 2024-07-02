@@ -12,13 +12,13 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/metacubex/mihomo/common/atomic"
-	"github.com/metacubex/mihomo/common/queue"
-	"github.com/metacubex/mihomo/common/utils"
-	"github.com/metacubex/mihomo/component/ca"
-	"github.com/metacubex/mihomo/component/dialer"
-	C "github.com/metacubex/mihomo/constant"
 	"github.com/puzpuzpuz/xsync/v3"
+	"github.com/qauzy/mat/common/atomic"
+	"github.com/qauzy/mat/common/queue"
+	"github.com/qauzy/mat/common/utils"
+	"github.com/qauzy/mat/component/ca"
+	"github.com/qauzy/mat/component/dialer"
+	C "github.com/qauzy/mat/constant"
 )
 
 var UnifiedDelay = atomic.NewBool(false)

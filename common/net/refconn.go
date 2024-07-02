@@ -5,7 +5,7 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/metacubex/mihomo/common/buf"
+	"github.com/qauzy/mat/common/buf"
 )
 
 type refConn struct {

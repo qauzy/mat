@@ -8,10 +8,10 @@ import (
 	"sync"
 	"time"
 
-	mihomoOnce "github.com/metacubex/mihomo/common/once"
-	mihomoHttp "github.com/metacubex/mihomo/component/http"
-	C "github.com/metacubex/mihomo/constant"
-	"github.com/metacubex/mihomo/log"
+	matOnce "github.com/qauzy/mat/common/once"
+	matHttp "github.com/qauzy/mat/component/http"
+	C "github.com/qauzy/mat/constant"
+	"github.com/qauzy/mat/log"
 
 	"github.com/oschwald/maxminddb-golang"
 )
@@ -82,7 +82,7 @@ func IPInstance() IPReader {
 func DownloadMMDB(path string) (err error) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*90)
 	defer cancel()
-	resp, err := mihomoHttp.HttpRequest(ctx, C.MmdbUrl, http.MethodGet, http.Header{"User-Agent": {C.UA}}, nil)
+	resp, err := matHttp.HttpRequest(ctx, C.MmdbUrl, http.MethodGet, http.Header{"User-Agent": {C.UA}}, nil)
 	if err != nil {
 		return
 	}
@@ -115,7 +115,7 @@ func ASNInstance() ASNReader {
 func DownloadASN(path string) (err error) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*90)
 	defer cancel()
-	resp, err := mihomoHttp.HttpRequest(ctx, C.ASNUrl, http.MethodGet, http.Header{"User-Agent": {C.UA}}, nil)
+	resp, err := matHttp.HttpRequest(ctx, C.ASNUrl, http.MethodGet, http.Header{"User-Agent": {C.UA}}, nil)
 	if err != nil {
 		return
 	}
@@ -132,9 +132,9 @@ func DownloadASN(path string) (err error) {
 }
 
 func ReloadIP() {
-	mihomoOnce.Reset(&IPonce)
+	matOnce.Reset(&IPonce)
 }
 
 func ReloadASN() {
-	mihomoOnce.Reset(&ASNonce)
+	matOnce.Reset(&ASNonce)
 }

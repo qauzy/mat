@@ -6,13 +6,13 @@ import (
 	"net"
 	"strconv"
 
-	N "github.com/metacubex/mihomo/common/net"
-	"github.com/metacubex/mihomo/common/structure"
-	"github.com/metacubex/mihomo/component/dialer"
-	"github.com/metacubex/mihomo/component/proxydialer"
-	C "github.com/metacubex/mihomo/constant"
-	obfs "github.com/metacubex/mihomo/transport/simple-obfs"
-	"github.com/metacubex/mihomo/transport/snell"
+	N "github.com/qauzy/mat/common/net"
+	"github.com/qauzy/mat/common/structure"
+	"github.com/qauzy/mat/component/dialer"
+	"github.com/qauzy/mat/component/proxydialer"
+	C "github.com/qauzy/mat/constant"
+	obfs "github.com/qauzy/mat/transport/simple-obfs"
+	"github.com/qauzy/mat/transport/snell"
 )
 
 type Snell struct {

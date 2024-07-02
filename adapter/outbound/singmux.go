@@ -5,12 +5,12 @@ import (
 	"errors"
 	"runtime"
 
-	CN "github.com/metacubex/mihomo/common/net"
-	"github.com/metacubex/mihomo/component/dialer"
-	"github.com/metacubex/mihomo/component/proxydialer"
-	"github.com/metacubex/mihomo/component/resolver"
-	C "github.com/metacubex/mihomo/constant"
-	"github.com/metacubex/mihomo/log"
+	CN "github.com/qauzy/mat/common/net"
+	"github.com/qauzy/mat/component/dialer"
+	"github.com/qauzy/mat/component/proxydialer"
+	"github.com/qauzy/mat/component/resolver"
+	C "github.com/qauzy/mat/constant"
+	"github.com/qauzy/mat/log"
 
 	mux "github.com/sagernet/sing-mux"
 	E "github.com/sagernet/sing/common/exceptions"

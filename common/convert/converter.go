@@ -9,10 +9,10 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/metacubex/mihomo/log"
+	"github.com/qauzy/mat/log"
 )
 
-// ConvertsV2Ray convert V2Ray subscribe proxies data to mihomo proxies config
+// ConvertsV2Ray convert V2Ray subscribe proxies data to mat proxies config
 func ConvertsV2Ray(buf []byte) ([]map[string]any, error) {
 	data := DecodeBase64(buf)
 

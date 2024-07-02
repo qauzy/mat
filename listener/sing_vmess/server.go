@@ -8,13 +8,13 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/metacubex/mihomo/adapter/inbound"
-	N "github.com/metacubex/mihomo/common/net"
-	C "github.com/metacubex/mihomo/constant"
-	LC "github.com/metacubex/mihomo/listener/config"
-	"github.com/metacubex/mihomo/listener/sing"
-	"github.com/metacubex/mihomo/ntp"
-	mihomoVMess "github.com/metacubex/mihomo/transport/vmess"
+	"github.com/qauzy/mat/adapter/inbound"
+	N "github.com/qauzy/mat/common/net"
+	C "github.com/qauzy/mat/constant"
+	LC "github.com/qauzy/mat/listener/config"
+	"github.com/qauzy/mat/listener/sing"
+	"github.com/qauzy/mat/ntp"
+	matVMess "github.com/qauzy/mat/transport/vmess"
 
 	vmess "github.com/metacubex/sing-vmess"
 	"github.com/sagernet/sing/common"
@@ -85,7 +85,7 @@ func New(config LC.VmessServer, tunnel C.Tunnel, additions ...inbound.Addition) 
 	if config.WsPath != "" {
 		httpMux = http.NewServeMux()
 		httpMux.HandleFunc(config.WsPath, func(w http.ResponseWriter, r *http.Request) {
-			conn, err := mihomoVMess.StreamUpgradedWebsocketConn(w, r)
+			conn, err := matVMess.StreamUpgradedWebsocketConn(w, r)
 			if err != nil {
 				http.Error(w, err.Error(), 500)
 				return

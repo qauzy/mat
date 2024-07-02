@@ -6,13 +6,13 @@ import (
 	"errors"
 	"time"
 
-	"github.com/metacubex/mihomo/adapter/outbound"
-	"github.com/metacubex/mihomo/common/callback"
-	N "github.com/metacubex/mihomo/common/net"
-	"github.com/metacubex/mihomo/common/utils"
-	"github.com/metacubex/mihomo/component/dialer"
-	C "github.com/metacubex/mihomo/constant"
-	"github.com/metacubex/mihomo/constant/provider"
+	"github.com/qauzy/mat/adapter/outbound"
+	"github.com/qauzy/mat/common/callback"
+	N "github.com/qauzy/mat/common/net"
+	"github.com/qauzy/mat/common/utils"
+	"github.com/qauzy/mat/component/dialer"
+	C "github.com/qauzy/mat/constant"
+	"github.com/qauzy/mat/constant/provider"
 )
 
 type Fallback struct {

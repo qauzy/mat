@@ -1,4 +1,4 @@
-module github.com/metacubex/mihomo
+module github.com/qauzy/mat
 
 go 1.20
 

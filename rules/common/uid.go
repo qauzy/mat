@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"runtime"
 
-	"github.com/metacubex/mihomo/common/utils"
-	C "github.com/metacubex/mihomo/constant"
-	"github.com/metacubex/mihomo/log"
+	"github.com/qauzy/mat/common/utils"
+	C "github.com/qauzy/mat/constant"
+	"github.com/qauzy/mat/log"
 )
 
 type Uid struct {

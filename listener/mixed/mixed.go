@@ -3,14 +3,14 @@ package mixed
 import (
 	"net"
 
-	"github.com/metacubex/mihomo/adapter/inbound"
-	"github.com/metacubex/mihomo/common/lru"
-	N "github.com/metacubex/mihomo/common/net"
-	C "github.com/metacubex/mihomo/constant"
-	"github.com/metacubex/mihomo/listener/http"
-	"github.com/metacubex/mihomo/listener/socks"
-	"github.com/metacubex/mihomo/transport/socks4"
-	"github.com/metacubex/mihomo/transport/socks5"
+	"github.com/qauzy/mat/adapter/inbound"
+	"github.com/qauzy/mat/common/lru"
+	N "github.com/qauzy/mat/common/net"
+	C "github.com/qauzy/mat/constant"
+	"github.com/qauzy/mat/listener/http"
+	"github.com/qauzy/mat/listener/socks"
+	"github.com/qauzy/mat/transport/socks4"
+	"github.com/qauzy/mat/transport/socks5"
 )
 
 type Listener struct {

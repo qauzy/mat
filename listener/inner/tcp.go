@@ -6,8 +6,8 @@ import (
 	"net/netip"
 	"strconv"
 
-	N "github.com/metacubex/mihomo/common/net"
-	C "github.com/metacubex/mihomo/constant"
+	N "github.com/qauzy/mat/common/net"
+	C "github.com/qauzy/mat/constant"
 )
 
 var tunnel C.Tunnel
@@ -27,7 +27,7 @@ func HandleTcp(address string, proxy string) (conn net.Conn, err error) {
 	metadata.NetWork = C.TCP
 	metadata.Type = C.INNER
 	metadata.DNSMode = C.DNSNormal
-	metadata.Process = C.MihomoName
+	metadata.Process = C.MatName
 	if proxy != "" {
 		metadata.SpecialProxy = proxy
 	}

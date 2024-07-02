@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"net/netip"
 
-	"github.com/metacubex/mihomo/common/callback"
-	"github.com/metacubex/mihomo/component/iface"
-	C "github.com/metacubex/mihomo/constant"
+	"github.com/qauzy/mat/common/callback"
+	"github.com/qauzy/mat/component/iface"
+	C "github.com/qauzy/mat/constant"
 
 	"github.com/puzpuzpuz/xsync/v3"
 )

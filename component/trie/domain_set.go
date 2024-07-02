@@ -7,8 +7,8 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/metacubex/mihomo/common/utils"
 	"github.com/openacid/low/bitmap"
+	"github.com/qauzy/mat/common/utils"
 )
 
 const (

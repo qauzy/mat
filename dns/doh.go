@@ -15,12 +15,12 @@ import (
 	"sync"
 	"time"
 
-	"github.com/metacubex/mihomo/component/ca"
-	C "github.com/metacubex/mihomo/constant"
-	"github.com/metacubex/mihomo/log"
 	"github.com/metacubex/quic-go"
 	"github.com/metacubex/quic-go/http3"
 	D "github.com/miekg/dns"
+	"github.com/qauzy/mat/component/ca"
+	C "github.com/qauzy/mat/constant"
+	"github.com/qauzy/mat/log"
 	"golang.org/x/exp/slices"
 	"golang.org/x/net/http2"
 )

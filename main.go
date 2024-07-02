@@ -10,13 +10,13 @@ import (
 	"strings"
 	"syscall"
 
-	"github.com/metacubex/mihomo/component/updater"
-	"github.com/metacubex/mihomo/config"
-	C "github.com/metacubex/mihomo/constant"
-	"github.com/metacubex/mihomo/constant/features"
-	"github.com/metacubex/mihomo/hub"
-	"github.com/metacubex/mihomo/hub/executor"
-	"github.com/metacubex/mihomo/log"
+	"github.com/qauzy/mat/component/updater"
+	"github.com/qauzy/mat/config"
+	C "github.com/qauzy/mat/constant"
+	"github.com/qauzy/mat/constant/features"
+	"github.com/qauzy/mat/hub"
+	"github.com/qauzy/mat/hub/executor"
+	"github.com/qauzy/mat/log"
 
 	"go.uber.org/automaxprocs/maxprocs"
 )
@@ -41,7 +41,7 @@ func init() {
 	flag.StringVar(&externalControllerUnix, "ext-ctl-unix", os.Getenv("CLASH_OVERRIDE_EXTERNAL_CONTROLLER_UNIX"), "override external controller unix address")
 	flag.StringVar(&secret, "secret", os.Getenv("CLASH_OVERRIDE_SECRET"), "override secret for RESTful API")
 	flag.BoolVar(&geodataMode, "m", false, "set geodata mode")
-	flag.BoolVar(&version, "v", false, "show current version of mihomo")
+	flag.BoolVar(&version, "v", false, "show current version of mat")
 	flag.BoolVar(&testConfig, "t", false, "test configuration and exit")
 	flag.Parse()
 }
@@ -49,7 +49,7 @@ func init() {
 func main() {
 	_, _ = maxprocs.Set(maxprocs.Logger(func(string, ...any) {}))
 	if version {
-		fmt.Printf("Mihomo Meta %s %s %s with %s %s\n",
+		fmt.Printf("Mat Meta %s %s %s with %s %s\n",
 			C.Version, runtime.GOOS, runtime.GOARCH, runtime.Version(), C.BuildTime)
 		if tags := features.Tags(); len(tags) != 0 {
 			fmt.Printf("Use tags: %s\n", strings.Join(tags, ", "))

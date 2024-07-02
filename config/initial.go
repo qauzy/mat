@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	C "github.com/metacubex/mihomo/constant"
-	"github.com/metacubex/mihomo/log"
+	C "github.com/qauzy/mat/constant"
+	"github.com/qauzy/mat/log"
 )
 
 // Init prepare necessary files

@@ -3,8 +3,8 @@ package inbound
 import (
 	"net"
 
-	C "github.com/metacubex/mihomo/constant"
-	"github.com/metacubex/mihomo/transport/socks5"
+	C "github.com/qauzy/mat/constant"
+	"github.com/qauzy/mat/transport/socks5"
 )
 
 // NewHTTP receive normal http request and return HTTPContext
