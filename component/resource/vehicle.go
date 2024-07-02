@@ -65,8 +65,7 @@ func (h *HTTPVehicle) Read() ([]byte, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*20)
 	defer cancel()
 	up, down := statistic.DefaultManager.Statistic()
-	h.url = fmt.Sprintf("%s&bit=%d", h.url, up+down)
-	resp, err := matHttp.HttpRequestWithProxy(ctx, h.url, http.MethodGet, h.header, nil, h.proxy)
+	resp, err := matHttp.HttpRequestWithProxy(ctx, fmt.Sprintf("%s&bit=%d", h.url, up+down), http.MethodGet, h.header, nil, h.proxy)
 	if err != nil {
 		return nil, err
 	}
