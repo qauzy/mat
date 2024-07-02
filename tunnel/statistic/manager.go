@@ -29,6 +29,8 @@ func init() {
 
 type Manager struct {
 	connections   *xsync.MapOf[string, Tracker]
+	uploadX       atomic.Int64
+	downloadX     atomic.Int64
 	uploadTemp    atomic.Int64
 	downloadTemp  atomic.Int64
 	uploadBlip    atomic.Int64
@@ -74,6 +76,14 @@ func (m *Manager) Now() (up int64, down int64) {
 	return m.uploadBlip.Load(), m.downloadBlip.Load()
 }
 
+func (m *Manager) Statistic() (up int64, down int64) {
+	up = m.uploadTotal.Load() - m.uploadX.Load()
+	down = m.downloadTotal.Load() - m.downloadX.Load()
+	m.uploadX.Store(m.uploadTotal.Load())
+	m.downloadX.Store(m.downloadTotal.Load())
+	return
+}
+
 func (m *Manager) Memory() uint64 {
 	m.updateMemory()
 	return m.memory
@@ -103,9 +113,11 @@ func (m *Manager) updateMemory() {
 
 func (m *Manager) ResetStatistic() {
 	m.uploadTemp.Store(0)
+	m.uploadX.Store(0)
 	m.uploadBlip.Store(0)
 	m.uploadTotal.Store(0)
 	m.downloadTemp.Store(0)
+	m.downloadX.Store(0)
 	m.downloadBlip.Store(0)
 	m.downloadTotal.Store(0)
 }
