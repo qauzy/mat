@@ -3,9 +3,9 @@ package dns
 import (
 	"net/netip"
 
-	"github.com/metacubex/mihomo/common/lru"
-	"github.com/metacubex/mihomo/component/fakeip"
-	C "github.com/metacubex/mihomo/constant"
+	"github.com/qauzy/mat/common/lru"
+	"github.com/qauzy/mat/component/fakeip"
+	C "github.com/qauzy/mat/constant"
 )
 
 type ResolverEnhancer struct {

@@ -11,9 +11,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/metacubex/mihomo/component/ca"
-	C "github.com/metacubex/mihomo/constant"
-	"github.com/metacubex/mihomo/listener/inner"
+	"github.com/qauzy/mat/component/ca"
+	C "github.com/qauzy/mat/constant"
+	"github.com/qauzy/mat/listener/inner"
 )
 
 func HttpRequest(ctx context.Context, url, method string, header map[string][]string, body io.Reader) (*http.Response, error) {

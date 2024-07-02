@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/metacubex/mihomo/common/structure"
-	"github.com/metacubex/mihomo/component/resource"
-	C "github.com/metacubex/mihomo/constant"
-	"github.com/metacubex/mihomo/constant/features"
-	P "github.com/metacubex/mihomo/constant/provider"
+	"github.com/qauzy/mat/common/structure"
+	"github.com/qauzy/mat/component/resource"
+	C "github.com/qauzy/mat/constant"
+	"github.com/qauzy/mat/constant/features"
+	P "github.com/qauzy/mat/constant/provider"
 )
 
 var (

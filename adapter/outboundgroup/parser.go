@@ -7,12 +7,12 @@ import (
 
 	"github.com/dlclark/regexp2"
 
-	"github.com/metacubex/mihomo/adapter/outbound"
-	"github.com/metacubex/mihomo/adapter/provider"
-	"github.com/metacubex/mihomo/common/structure"
-	"github.com/metacubex/mihomo/common/utils"
-	C "github.com/metacubex/mihomo/constant"
-	types "github.com/metacubex/mihomo/constant/provider"
+	"github.com/qauzy/mat/adapter/outbound"
+	"github.com/qauzy/mat/adapter/provider"
+	"github.com/qauzy/mat/common/structure"
+	"github.com/qauzy/mat/common/utils"
+	C "github.com/qauzy/mat/constant"
+	types "github.com/qauzy/mat/constant/provider"
 )
 
 var (

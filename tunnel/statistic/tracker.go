@@ -7,11 +7,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/metacubex/mihomo/common/atomic"
-	"github.com/metacubex/mihomo/common/buf"
-	N "github.com/metacubex/mihomo/common/net"
-	"github.com/metacubex/mihomo/common/utils"
-	C "github.com/metacubex/mihomo/constant"
+	"github.com/qauzy/mat/common/atomic"
+	"github.com/qauzy/mat/common/buf"
+	N "github.com/qauzy/mat/common/net"
+	"github.com/qauzy/mat/common/utils"
+	C "github.com/qauzy/mat/constant"
 
 	"github.com/gofrs/uuid/v5"
 )

@@ -3,7 +3,7 @@ package constant
 import (
 	"net"
 
-	N "github.com/metacubex/mihomo/common/net"
+	N "github.com/qauzy/mat/common/net"
 
 	"github.com/gofrs/uuid/v5"
 )

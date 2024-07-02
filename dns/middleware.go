@@ -5,13 +5,13 @@ import (
 	"strings"
 	"time"
 
-	"github.com/metacubex/mihomo/common/lru"
-	"github.com/metacubex/mihomo/common/nnip"
-	"github.com/metacubex/mihomo/component/fakeip"
-	R "github.com/metacubex/mihomo/component/resolver"
-	C "github.com/metacubex/mihomo/constant"
-	"github.com/metacubex/mihomo/context"
-	"github.com/metacubex/mihomo/log"
+	"github.com/qauzy/mat/common/lru"
+	"github.com/qauzy/mat/common/nnip"
+	"github.com/qauzy/mat/component/fakeip"
+	R "github.com/qauzy/mat/component/resolver"
+	C "github.com/qauzy/mat/constant"
+	"github.com/qauzy/mat/context"
+	"github.com/qauzy/mat/log"
 
 	D "github.com/miekg/dns"
 )

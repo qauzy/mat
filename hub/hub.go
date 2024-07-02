@@ -1,10 +1,10 @@
 package hub
 
 import (
-	"github.com/metacubex/mihomo/config"
-	"github.com/metacubex/mihomo/hub/executor"
-	"github.com/metacubex/mihomo/hub/route"
-	"github.com/metacubex/mihomo/log"
+	"github.com/qauzy/mat/config"
+	"github.com/qauzy/mat/hub/executor"
+	"github.com/qauzy/mat/hub/route"
+	"github.com/qauzy/mat/log"
 )
 
 type Option func(*config.Config)
@@ -33,7 +33,7 @@ func WithSecret(secret string) Option {
 	}
 }
 
-// Parse call at the beginning of mihomo
+// Parse call at the beginning of mat
 func Parse(options ...Option) error {
 	cfg, err := executor.Parse()
 	if err != nil {

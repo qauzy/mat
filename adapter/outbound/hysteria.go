@@ -14,17 +14,17 @@ import (
 	"github.com/metacubex/quic-go/congestion"
 	M "github.com/sagernet/sing/common/metadata"
 
-	"github.com/metacubex/mihomo/component/ca"
-	"github.com/metacubex/mihomo/component/dialer"
-	"github.com/metacubex/mihomo/component/proxydialer"
-	C "github.com/metacubex/mihomo/constant"
-	"github.com/metacubex/mihomo/log"
-	hyCongestion "github.com/metacubex/mihomo/transport/hysteria/congestion"
-	"github.com/metacubex/mihomo/transport/hysteria/core"
-	"github.com/metacubex/mihomo/transport/hysteria/obfs"
-	"github.com/metacubex/mihomo/transport/hysteria/pmtud_fix"
-	"github.com/metacubex/mihomo/transport/hysteria/transport"
-	"github.com/metacubex/mihomo/transport/hysteria/utils"
+	"github.com/qauzy/mat/component/ca"
+	"github.com/qauzy/mat/component/dialer"
+	"github.com/qauzy/mat/component/proxydialer"
+	C "github.com/qauzy/mat/constant"
+	"github.com/qauzy/mat/log"
+	hyCongestion "github.com/qauzy/mat/transport/hysteria/congestion"
+	"github.com/qauzy/mat/transport/hysteria/core"
+	"github.com/qauzy/mat/transport/hysteria/obfs"
+	"github.com/qauzy/mat/transport/hysteria/pmtud_fix"
+	"github.com/qauzy/mat/transport/hysteria/transport"
+	"github.com/qauzy/mat/transport/hysteria/utils"
 )
 
 const (

@@ -14,8 +14,8 @@ import (
 	"github.com/sagernet/netlink"
 	"golang.org/x/sys/unix"
 
-	C "github.com/metacubex/mihomo/constant"
-	"github.com/metacubex/mihomo/transport/socks5"
+	C "github.com/qauzy/mat/constant"
+	"github.com/qauzy/mat/transport/socks5"
 )
 
 //go:generate go run github.com/cilium/ebpf/cmd/bpf2go -cc $BPF_CLANG -cflags $BPF_CFLAGS bpf ../bpf/tc.c
@@ -115,7 +115,7 @@ func (e *EBpfTC) Start() error {
 	filter := &netlink.BpfFilter{
 		FilterAttrs:  filterAttrs,
 		Fd:           objs.bpfPrograms.TcTunFunc.FD(),
-		Name:         "mihomo-tc-" + e.ifName,
+		Name:         "mat-tc-" + e.ifName,
 		DirectAction: true,
 	}
 

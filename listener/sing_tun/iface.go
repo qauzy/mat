@@ -4,7 +4,7 @@ import (
 	"errors"
 	"net/netip"
 
-	"github.com/metacubex/mihomo/component/iface"
+	"github.com/qauzy/mat/component/iface"
 
 	"github.com/sagernet/sing/common/control"
 )

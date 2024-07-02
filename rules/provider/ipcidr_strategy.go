@@ -1,9 +1,9 @@
 package provider
 
 import (
-	"github.com/metacubex/mihomo/component/cidr"
-	C "github.com/metacubex/mihomo/constant"
-	"github.com/metacubex/mihomo/log"
+	"github.com/qauzy/mat/component/cidr"
+	C "github.com/qauzy/mat/constant"
+	"github.com/qauzy/mat/log"
 
 	"go4.org/netipx"
 )

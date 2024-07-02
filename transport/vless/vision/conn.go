@@ -9,9 +9,9 @@ import (
 	"io"
 	"net"
 
-	"github.com/metacubex/mihomo/common/buf"
-	N "github.com/metacubex/mihomo/common/net"
-	"github.com/metacubex/mihomo/log"
+	"github.com/qauzy/mat/common/buf"
+	N "github.com/qauzy/mat/common/net"
+	"github.com/qauzy/mat/log"
 
 	"github.com/gofrs/uuid/v5"
 	utls "github.com/metacubex/utls"

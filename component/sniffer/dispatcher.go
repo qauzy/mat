@@ -8,12 +8,12 @@ import (
 	"sync"
 	"time"
 
-	"github.com/metacubex/mihomo/common/lru"
-	N "github.com/metacubex/mihomo/common/net"
-	"github.com/metacubex/mihomo/component/trie"
-	C "github.com/metacubex/mihomo/constant"
-	"github.com/metacubex/mihomo/constant/sniffer"
-	"github.com/metacubex/mihomo/log"
+	"github.com/qauzy/mat/common/lru"
+	N "github.com/qauzy/mat/common/net"
+	"github.com/qauzy/mat/component/trie"
+	C "github.com/qauzy/mat/constant"
+	"github.com/qauzy/mat/constant/sniffer"
+	"github.com/qauzy/mat/log"
 )
 
 var (

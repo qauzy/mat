@@ -3,10 +3,10 @@ package tproxy
 import (
 	"net"
 
-	"github.com/metacubex/mihomo/adapter/inbound"
-	N "github.com/metacubex/mihomo/common/net"
-	C "github.com/metacubex/mihomo/constant"
-	"github.com/metacubex/mihomo/transport/socks5"
+	"github.com/qauzy/mat/adapter/inbound"
+	N "github.com/qauzy/mat/common/net"
+	C "github.com/qauzy/mat/constant"
+	"github.com/qauzy/mat/transport/socks5"
 )
 
 type Listener struct {

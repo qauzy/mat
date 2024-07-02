@@ -10,9 +10,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/metacubex/mihomo/component/dhcp"
-	"github.com/metacubex/mihomo/component/iface"
 	D "github.com/miekg/dns"
+	"github.com/qauzy/mat/component/dhcp"
+	"github.com/qauzy/mat/component/iface"
 )
 
 const (

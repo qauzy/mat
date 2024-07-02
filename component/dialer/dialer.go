@@ -12,9 +12,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/metacubex/mihomo/component/resolver"
-	"github.com/metacubex/mihomo/constant/features"
-	"github.com/metacubex/mihomo/log"
+	"github.com/qauzy/mat/component/resolver"
+	"github.com/qauzy/mat/constant/features"
+	"github.com/qauzy/mat/log"
 )
 
 const (

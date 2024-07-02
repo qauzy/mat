@@ -8,8 +8,8 @@ import (
 	"os"
 	"time"
 
-	mihomoHttp "github.com/metacubex/mihomo/component/http"
-	C "github.com/metacubex/mihomo/constant"
+	matHttp "github.com/qauzy/mat/component/http"
+	C "github.com/qauzy/mat/constant"
 
 	"golang.org/x/exp/constraints"
 )
@@ -17,7 +17,7 @@ import (
 func downloadForBytes(url string) ([]byte, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*90)
 	defer cancel()
-	resp, err := mihomoHttp.HttpRequest(ctx, url, http.MethodGet, http.Header{"User-Agent": {C.UA}}, nil)
+	resp, err := matHttp.HttpRequest(ctx, url, http.MethodGet, http.Header{"User-Agent": {C.UA}}, nil)
 	if err != nil {
 		return nil, err
 	}

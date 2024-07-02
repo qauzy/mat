@@ -15,15 +15,15 @@ import (
 	"sync"
 	"time"
 
-	mihomoHttp "github.com/metacubex/mihomo/component/http"
-	C "github.com/metacubex/mihomo/constant"
-	"github.com/metacubex/mihomo/log"
+	matHttp "github.com/qauzy/mat/component/http"
+	C "github.com/qauzy/mat/constant"
+	"github.com/qauzy/mat/log"
 
 	"github.com/klauspost/cpuid/v2"
 )
 
 // modify from https://github.com/AdguardTeam/AdGuardHome/blob/595484e0b3fb4c457f9bb727a6b94faa78a66c5f/internal/updater/updater.go
-// Updater is the mihomo updater.
+// Updater is the mat updater.
 var (
 	goarm           string
 	gomips          string
@@ -41,8 +41,8 @@ var (
 	backupExeName  string // 备份文件名
 	updateExeName  string // 更新后的可执行文件
 
-	baseURL       string = "https://github.com/MetaCubeX/mihomo/releases/download/Prerelease-Alpha/mihomo"
-	versionURL    string = "https://github.com/MetaCubeX/mihomo/releases/download/Prerelease-Alpha/version.txt"
+	baseURL       string = "https://github.com/MetaCubeX/mat/releases/download/Prerelease-Alpha/mat"
+	versionURL    string = "https://github.com/MetaCubeX/mat/releases/download/Prerelease-Alpha/version.txt"
 	packageURL    string
 	latestVersion string
 )
@@ -52,8 +52,8 @@ func init() {
 		amd64Compatible = "-compatible"
 	}
 	if !strings.HasPrefix(C.Version, "alpha") {
-		baseURL = "https://github.com/MetaCubeX/mihomo/releases/latest/download/mihomo"
-		versionURL = "https://github.com/MetaCubeX/mihomo/releases/latest/download/version.txt"
+		baseURL = "https://github.com/MetaCubeX/mat/releases/latest/download/mat"
+		versionURL = "https://github.com/MetaCubeX/mat/releases/latest/download/version.txt"
 	}
 }
 
@@ -139,11 +139,11 @@ func prepare(exePath string) (err error) {
 	backupDir = filepath.Join(workDir, "meta-backup")
 
 	if runtime.GOOS == "windows" {
-		updateExeName = "mihomo" + "-" + runtime.GOOS + "-" + runtime.GOARCH + amd64Compatible + ".exe"
+		updateExeName = "mat" + "-" + runtime.GOOS + "-" + runtime.GOARCH + amd64Compatible + ".exe"
 	} else if runtime.GOOS == "android" && runtime.GOARCH == "arm64" {
-		updateExeName = "mihomo-android-arm64-v8"
+		updateExeName = "mat-android-arm64-v8"
 	} else {
-		updateExeName = "mihomo" + "-" + runtime.GOOS + "-" + runtime.GOARCH + amd64Compatible
+		updateExeName = "mat" + "-" + runtime.GOOS + "-" + runtime.GOARCH + amd64Compatible
 	}
 
 	log.Infoln("updateExeName: %s ", updateExeName)
@@ -237,7 +237,7 @@ const MaxPackageFileSize = 32 * 1024 * 1024
 func downloadPackageFile() (err error) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*90)
 	defer cancel()
-	resp, err := mihomoHttp.HttpRequest(ctx, packageURL, http.MethodGet, http.Header{"User-Agent": {C.UA}}, nil)
+	resp, err := matHttp.HttpRequest(ctx, packageURL, http.MethodGet, http.Header{"User-Agent": {C.UA}}, nil)
 	if err != nil {
 		return fmt.Errorf("http request failed: %w", err)
 	}
@@ -418,7 +418,7 @@ func copyFile(src, dst string) error {
 func getLatestVersion() (version string, err error) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
 	defer cancel()
-	resp, err := mihomoHttp.HttpRequest(ctx, versionURL, http.MethodGet, http.Header{"User-Agent": {C.UA}}, nil)
+	resp, err := matHttp.HttpRequest(ctx, versionURL, http.MethodGet, http.Header{"User-Agent": {C.UA}}, nil)
 	if err != nil {
 		return "", fmt.Errorf("get Latest Version fail: %w", err)
 	}
