@@ -44,6 +44,7 @@ require (
 	github.com/shirou/gopsutil/v3 v3.24.5
 	github.com/sirupsen/logrus v1.9.3
 	github.com/stretchr/testify v1.9.0
+	github.com/super-l/machine-code v0.0.0-20240104080917-14388119a8dd
 	github.com/wk8/go-ordered-map/v2 v2.1.8
 	go.uber.org/automaxprocs v1.5.3
 	go4.org/netipx v0.0.0-20231129151722-fdeea329fbba
@@ -54,6 +55,7 @@ require (
 	golang.org/x/sys v0.21.0
 	google.golang.org/protobuf v1.34.2
 	gopkg.in/yaml.v3 v3.0.1
+	gorm.io/gorm v1.25.10
 	lukechampine.com/blake3 v1.3.0
 )
 
@@ -79,6 +81,8 @@ require (
 	github.com/google/go-cmp v0.6.0 // indirect
 	github.com/google/pprof v0.0.0-20210407192527-94a9f03dee38 // indirect
 	github.com/hashicorp/yamux v0.1.1 // indirect
+	github.com/jinzhu/inflection v1.0.0 // indirect
+	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/josharian/native v1.1.0 // indirect
 	github.com/klauspost/compress v1.17.4 // indirect
 	github.com/lufia/plan9stats v0.0.0-20211012122336-39d0f177ccd0 // indirect
