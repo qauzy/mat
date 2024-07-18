@@ -67,6 +67,7 @@ type General struct {
 	EBpf                    EBpf              `json:"-"`
 	GlobalClientFingerprint string            `json:"global-client-fingerprint"`
 	GlobalUA                string            `json:"global-ua"`
+	AccessToken             string            `json:"access-token"` // this token is for system management
 }
 
 // Inbound config
@@ -297,6 +298,7 @@ type RawTuicServer struct {
 }
 
 type RawConfig struct {
+	AccessToken             string            `yaml:"access-token" json:"access-token"` // this token is for system management
 	Port                    int               `yaml:"port" json:"port"`
 	SocksPort               int               `yaml:"socks-port" json:"socks-port"`
 	RedirPort               int               `yaml:"redir-port" json:"redir-port"`
@@ -675,6 +677,7 @@ func parseGeneral(cfg *RawConfig) (*General, error) {
 	}
 
 	return &General{
+		AccessToken: cfg.AccessToken,
 		Inbound: Inbound{
 			Port:              cfg.Port,
 			SocksPort:         cfg.SocksPort,
@@ -779,7 +782,7 @@ func parseProxies(cfg *RawConfig) (proxies map[string]C.Proxy, providersMap map[
 		if name == provider.ReservedName {
 			return nil, nil, fmt.Errorf("can not defined a provider called `%s`", provider.ReservedName)
 		}
-
+		mapping["access-token"] = cfg.AccessToken
 		pd, err := provider.ParseProxyProvider(name, mapping)
 		if err != nil {
 			return nil, nil, fmt.Errorf("parse proxy provider %s error: %w", name, err)

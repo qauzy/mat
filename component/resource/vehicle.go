@@ -4,10 +4,12 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/qauzy/mat/common/utils"
 	"github.com/qauzy/mat/tunnel/statistic"
 	"io"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	matHttp "github.com/qauzy/mat/component/http"
@@ -76,6 +78,15 @@ func (h *HTTPVehicle) Read() ([]byte, error) {
 	buf, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
+	}
+	key := strings.TrimSpace(resp.Header.Get("X-UUID"))
+
+	//是加密数据
+	if key != "" {
+		buf, err = utils.Decrypt([]byte(key[4:]), buf)
+		if err != nil {
+			return nil, err
+		}
 	}
 	return buf, nil
 }

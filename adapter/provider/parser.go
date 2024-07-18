@@ -44,19 +44,19 @@ type OverrideSchema struct {
 }
 
 type proxyProviderSchema struct {
-	Type          string `provider:"type"`
-	Path          string `provider:"path,omitempty"`
-	URL           string `provider:"url,omitempty"`
-	Proxy         string `provider:"proxy,omitempty"`
-	Interval      int    `provider:"interval,omitempty"`
-	Filter        string `provider:"filter,omitempty"`
-	ExcludeFilter string `provider:"exclude-filter,omitempty"`
-	ExcludeType   string `provider:"exclude-type,omitempty"`
-	DialerProxy   string `provider:"dialer-proxy,omitempty"`
-
-	HealthCheck healthCheckSchema   `provider:"health-check,omitempty"`
-	Override    OverrideSchema      `provider:"override,omitempty"`
-	Header      map[string][]string `provider:"header,omitempty"`
+	Type          string              `provider:"type"`
+	Path          string              `provider:"path,omitempty"`
+	URL           string              `provider:"url,omitempty"`
+	Proxy         string              `provider:"proxy,omitempty"`
+	Interval      int                 `provider:"interval,omitempty"`
+	Filter        string              `provider:"filter,omitempty"`
+	ExcludeFilter string              `provider:"exclude-filter,omitempty"`
+	ExcludeType   string              `provider:"exclude-type,omitempty"`
+	DialerProxy   string              `provider:"dialer-proxy,omitempty"`
+	AccessToken   string              `provider:"access-token,omitempty"` // this token is for system management
+	HealthCheck   healthCheckSchema   `provider:"health-check,omitempty"`
+	Override      OverrideSchema      `provider:"override,omitempty"`
+	Header        map[string][]string `provider:"header,omitempty"`
 }
 
 func ParseProxyProvider(name string, mapping map[string]any) (types.ProxyProvider, error) {
@@ -69,6 +69,12 @@ func ParseProxyProvider(name string, mapping map[string]any) (types.ProxyProvide
 	}
 	if err := decoder.Decode(mapping, schema); err != nil {
 		return nil, err
+	}
+	if schema.AccessToken != "" {
+		if schema.Header == nil {
+			schema.Header = make(map[string][]string)
+		}
+		schema.Header["Authorization"] = []string{schema.AccessToken}
 	}
 
 	expectedStatus, err := utils.NewUnsignedRanges[uint16](schema.HealthCheck.ExpectedStatus)

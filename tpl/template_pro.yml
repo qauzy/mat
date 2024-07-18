@@ -1,8 +1,9 @@
-mixed-port: 9891
+mixed-port: 7890
 allow-lan: true
 mode: Rule
-log-level: silent
-external-controller: :9091
+log-level: info
+external-controller: :9090
+access-token: b4935d8347dd46139534e3dd412fbddc
 tun:
   enable: true
   stack: system
@@ -26,6 +27,14 @@ dns:
     - 8.8.4.4
     - tls://1.0.0.1:853
     - tls://dns.google:853
+proxies:
+  - cipher: chacha20-ietf-poly1305
+    name: HK_20240228213507_640.62KB
+    password: WKF0fRDWe3BHXi2l
+    port: 10074
+    server: acc.xiyun.co
+    type: ss
+    udp: true
 proxy-groups:
   - name: 🔰 节点选择
     type: select
@@ -38,19 +47,27 @@ proxy-groups:
   - name: ♻️ 自动选择
     type: load-balance
     url: http://www.google.com/generate_204
-    interval: 30
+    strategy: round-robin
+    interval: 300
     use:
       - common
   - name: ♻️ 自动选择(低延时)
     type: url-test
     url: http://www.google.com/generate_204
-    interval: 30
+    interval: 300
     use:
       - common
+  - name: ♻️ US线路
+    type: url-test
+    url: http://www.google.com/generate_204
+    interval: 300
+    strategy: consistent-hashing
+    use:
+      - chat
   - name: ♻️ ChatGPT专用
     type: url-test
     url: http://www.google.com/generate_204
-    interval: 30
+    interval: 300
     strategy: consistent-hashing
     use:
       - chat
@@ -58,7 +75,7 @@ proxy-groups:
     type: load-balance
     url: http://www.google.com/generate_204
     interval: 300
-    strategy: consistent-hashing
+    strategy: round-robin
     use:
       - huggingface
   - name: 🐟 ChatGPT
@@ -103,8 +120,9 @@ proxy-groups:
   - name: 📲 电报信息
     type: select
     proxies:
-      - 🎯 全球直连
       - 🔰 节点选择
+      - ♻️ US线路
+      - 🎯 全球直连
   - name: 🍎 苹果服务
     type: select
     proxies:
@@ -122,39 +140,37 @@ proxy-groups:
   - name: 🐟 漏网之鱼
     type: select
     proxies:
+      - ♻️ 自动选择
       - 🔰 节点选择
       - 🎯 全球直连
-      - ♻️ 自动选择
+
 proxy-providers:
   common:
     type: http
     lazy: false
-    url: "https://gitter.hiyai.cn/v1/file/2?id=%s"
-    path: ./profiles/proxies/common.yaml
+    url: "https://fat.hiyai.cn/api/hf/file?f=2"
     interval: 600
     health-check:
       enable: true
-      interval: 1200
+      interval: 60
       url: http://www.google.com/generate_204
   chat:
     type: http
     lazy: false
-    url: "https://gitter.hiyai.cn/v1/file/3?id=%s"
-    path: ./profiles/proxies/chat.yaml
-    interval: 1200
+    url: "https://fat.hiyai.cn/api/hf/file?f=3"
+    interval: 1100
     health-check:
       enable: true
-      interval: 300
+      interval: 60
       url: http://www.google.com/generate_204
   huggingface:
     type: http
     lazy: false
-    url: "https://huggingcat.hiyai.cn/v1/file/4?id=%s"
-    path: ./profiles/proxies/huggingface.yaml
-    interval: 1800
+    url: "https://fat.hiyai.cn/api/hf/file?f=4"
+    interval: 1900
     health-check:
       enable: true
-      interval: 300
+      interval: 60
       url: http://www.google.com/generate_204
 rules:
   - DOMAIN-SUFFIX,local,🎯 全球直连
@@ -167,7 +183,9 @@ rules:
   - IP-CIDR6,fc00::/7,🎯 全球直连,no-resolve
   - IP-CIDR6,fe80::/10,🎯 全球直连,no-resolve
   - IP-CIDR6,fd00::/8,🎯 全球直连,no-resolve
+  - DOMAIN-SUFFIX,api.openai.com,🔰 节点选择
   - DOMAIN-SUFFIX,ai.com,🐟 ChatGPT
+  - DOMAIN-SUFFIX,cdn.oaistatic.com,🐟 ChatGPT
   - DOMAIN-SUFFIX,openai.com,🐟 ChatGPT
   - DOMAIN-SUFFIX,auth0.com,🐟 ChatGPT
   - DOMAIN-SUFFIX,challenges.cloudflare.com,🐟 ChatGPT
@@ -259,14 +277,14 @@ rules:
   - DOMAIN,sycm.mmstat.com,🎯 全球直连
   - DOMAIN-SUFFIX,blog.google,🎯 全球直连
   - DOMAIN-SUFFIX,googletraveladservices.com,🎯 全球直连
-  - DOMAIN,clientservices.googleapis.com,🎯 全球直连
+  - DOMAIN,clientservices.googleapis.com,🔰 节点选择
   - DOMAIN,dl.google.com,🎯 全球直连
   - DOMAIN,dl.l.google.com,🎯 全球直连
-  - DOMAIN,update.googleapis.com,🎯 全球直连
-  - DOMAIN,translate.googleapis.com,🎯 全球直连
-  - DOMAIN,fonts.googleapis.com,🎯 全球直连
+  - DOMAIN,update.googleapis.com,🔰 节点选择
+  - DOMAIN,translate.googleapis.com,🔰 节点选择
+  - DOMAIN,fonts.googleapis.com,🔰 节点选择
   - DOMAIN,fonts.gstatic.com,🎯 全球直连
-  - DOMAIN,mtalk.google.com,🎯 全球直连
+  - DOMAIN,mtalk.google.com,🔰 节点选择
   - DOMAIN,alt1-mtalk.google.com,🎯 全球直连
   - DOMAIN,alt2-mtalk.google.com,🎯 全球直连
   - DOMAIN,alt3-mtalk.google.com,🎯 全球直连
@@ -9522,6 +9540,10 @@ rules:
   - DOMAIN-KEYWORD,google,🔰 节点选择
   - DOMAIN-KEYWORD,cdn-lfs.huggingface.co,♻️ 负载均衡(huggingface)
   - DOMAIN-KEYWORD,cdn-lfs,♻️ 负载均衡(huggingface)
+  - DOMAIN-KEYWORD,metaark.crosschain.computer,♻️ 负载均衡(huggingface)
+  - DOMAIN-KEYWORD,download1.fogmetalabs.com,♻️ 负载均衡(huggingface)
+  - DOMAIN-KEYWORD,crosschain.computer,♻️ 负载均衡(huggingface)
+  - DOMAIN-KEYWORD,fogmetalabs.com,♻️ 负载均衡(huggingface)
   - DOMAIN-KEYWORD,huggingface,🔰 节点选择
   - DOMAIN-KEYWORD,.blogspot.,🔰 节点选择
   - DOMAIN-SUFFIX,line.me,🔰 节点选择

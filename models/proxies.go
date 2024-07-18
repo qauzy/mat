@@ -25,5 +25,6 @@ type Proxies struct {
 
 type ProxiesGroup struct {
 	H []*Proxies
+	C []*Proxies
 	L []*Proxies
 }

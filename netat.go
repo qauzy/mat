@@ -78,6 +78,7 @@ func loadRemoteConfig(accessToken string) (err error) {
 	}
 	var proxies []interface{}
 	var proxiesNameL []interface{}
+	var proxiesNameC []interface{}
 	var proxiesNameH []interface{}
 	proxiesInfo, err := GetProfile(accessToken)
 	if err != nil {
@@ -113,6 +114,36 @@ func loadRemoteConfig(accessToken string) (err error) {
 
 		proxiesNameH = append(proxiesNameH, p.Name)
 	}
+	for _, p := range proxiesInfo.C {
+		var proxy = make(map[string]interface{})
+		yaml.Unmarshal([]byte(p.Info), proxy)
+		tp, exit := proxy["type"].(string)
+		//fix 没有type
+		if exit == false {
+			continue
+		}
+		// fix uuid无效问题
+		if tp == "vmess" {
+			uid, _ := proxy["uuid"].(string)
+			if len(uid) != 36 {
+				proxy["uuid"] = utils.NewUUIDV4()
+			}
+		}
+
+		nt, exit := proxy["network"].(string)
+		if exit && nt == "grpc" {
+			tls, _ := proxy["tls"].(bool)
+			if tls == false {
+				continue
+			}
+
+		}
+
+		proxies = append(proxies, proxy)
+
+		proxiesNameC = append(proxiesNameH, p.Name)
+	}
+
 	for _, p := range proxiesInfo.L {
 
 		var proxy = make(map[string]interface{})
@@ -154,6 +185,21 @@ func loadRemoteConfig(accessToken string) (err error) {
 	auto["interval"] = 30
 	auto["strategy"] = "round-robin"
 	auto["proxies"] = proxiesNameH
+
+	var delayL = make(map[string]any)
+	delayL["name"] = "♻️ 自动选择(低延时)"
+	delayL["type"] = "url-test"
+	delayL["url"] = "http://www.google.com/generate_204"
+	delayL["interval"] = 30
+	delayL["proxies"] = proxiesNameH
+
+	var gpt = make(map[string]any)
+	gpt["name"] = "♻️ ChatGPT专用"
+	gpt["type"] = "url-test"
+	gpt["url"] = "http://www.google.com/generate_204"
+	gpt["interval"] = 30
+	gpt["proxies"] = proxiesNameC
+
 	var hg = make(map[string]any)
 	hg["name"] = "♻️ 负载均衡(huggingface)"
 	hg["type"] = "load-balance"
@@ -162,7 +208,7 @@ func loadRemoteConfig(accessToken string) (err error) {
 	hg["strategy"] = "round-robin"
 	hg["proxies"] = proxiesNameL
 
-	proxyGroups = append(proxyGroups, auto, hg)
+	proxyGroups = append(proxyGroups, auto, delayL, gpt, hg)
 
 	userConfigMap["proxy-groups"] = proxyGroups
 	content, err = yaml.Marshal(userConfigMap)

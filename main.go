@@ -3,13 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"os"
-	"os/signal"
-	"path/filepath"
-	"runtime"
-	"strings"
-	"syscall"
-
 	"github.com/qauzy/mat/component/updater"
 	"github.com/qauzy/mat/config"
 	C "github.com/qauzy/mat/constant"
@@ -17,6 +10,12 @@ import (
 	"github.com/qauzy/mat/hub"
 	"github.com/qauzy/mat/hub/executor"
 	"github.com/qauzy/mat/log"
+	"os"
+	"os/signal"
+	"path/filepath"
+	"runtime"
+	"strings"
+	"syscall"
 
 	"go.uber.org/automaxprocs/maxprocs"
 )

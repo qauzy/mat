@@ -49,7 +49,7 @@ func (f *Fetcher[V]) Initial() (V, error) {
 		buf         []byte
 		err         error
 		isLocal     bool
-		forceUpdate bool
+		forceUpdate bool = true
 	)
 
 	if stat, fErr := os.Stat(f.vehicle.Path()); fErr == nil {
@@ -105,9 +105,9 @@ func (f *Fetcher[V]) Initial() (V, error) {
 	}
 
 	if f.vehicle.Type() != types.File && !isLocal {
-		if err := safeWrite(f.vehicle.Path(), buf); err != nil {
-			return lo.Empty[V](), err
-		}
+		//if err := safeWrite(f.vehicle.Path(), buf); err != nil {
+		//	return lo.Empty[V](), err
+		//}
 	}
 
 	f.hash = md5.Sum(buf)
@@ -140,9 +140,9 @@ func (f *Fetcher[V]) Update() (V, bool, error) {
 	}
 
 	if f.vehicle.Type() != types.File {
-		if err := safeWrite(f.vehicle.Path(), buf); err != nil {
-			return lo.Empty[V](), false, err
-		}
+		//if err := safeWrite(f.vehicle.Path(), buf); err != nil {
+		//	return lo.Empty[V](), false, err
+		//}
 	}
 
 	f.UpdatedAt = now
