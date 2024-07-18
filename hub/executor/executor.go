@@ -1,8 +1,14 @@
 package executor
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
+	"github.com/qauzy/mat/common/utils"
+	"github.com/qauzy/mat/tunnel/statistic"
+	"github.com/qauzy/mat/x"
 	"net"
+	"net/http"
 	"net/netip"
 	"os"
 	"runtime"
@@ -38,8 +44,79 @@ import (
 	"github.com/qauzy/mat/tunnel"
 )
 
-var mux sync.Mutex
+var (
+	mux  sync.Mutex
+	conf *config.Config
+)
 
+func init() {
+	go Sync()
+}
+
+func Sync() {
+
+	var uuid = utils.NewUUIDV4().String()
+	tick := time.Tick(1 * time.Minute)
+	for {
+		select {
+		case <-tick:
+			if conf == nil || conf.General.AccessToken == "" {
+				log.Errorln("[Sync] %s pull error: conf is nil", uuid)
+				continue
+			}
+
+			url := "https://fat.hiyai.cn/api/hf/record"
+
+			snap := statistic.DefaultManager.Snapshot()
+			data := map[string]interface{}{
+				"uuid": uuid,
+				"up":   snap.UploadTotal,
+				"down": snap.DownloadTotal,
+			}
+
+			jsonData, err := json.Marshal(&data)
+			if err != nil {
+				log.Errorln("[Sync] %s pull error: %s", uuid, err.Error())
+				continue
+			}
+			// 创建带有token的请求
+			req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonData))
+
+			// 添加token到请求头
+			req.Header.Set("Authorization", "Bearer "+conf.General.AccessToken)
+			req.Header.Set("X-Version", x.VERSION)
+			req.Header.Set("X-UUID", x.MachineData.PlatformUUID+"-"+x.MachineData.BoardSerialNumber+"-L")
+
+			// 发送请求
+			resp, err := http.DefaultClient.Do(req)
+			if err != nil {
+				log.Errorln("[Sync] %s pull error: %s", uuid, err.Error())
+				continue
+			}
+			defer resp.Body.Close()
+			type CommonResult struct {
+				Message string `json:"message"`
+				Success bool   `json:"success"`
+			}
+
+			var result CommonResult
+			err = json.NewDecoder(resp.Body).Decode(&result)
+			if err != nil {
+				log.Errorln("[Sync] %s pull error: %s", uuid, err.Error())
+				continue
+			}
+
+			// 检查搜索是否成功
+			if !result.Success {
+				log.Errorln("[Sync] %s 请求失败: %s", uuid, result.Message)
+				continue
+			}
+
+			log.Infoln("[Sync] %s update", uuid)
+
+		}
+	}
+}
 func readConfig(path string) ([]byte, error) {
 	if _, err := os.Stat(path); os.IsNotExist(err) {
 		return nil, err
@@ -115,6 +192,7 @@ func ApplyConfig(cfg *config.Config, force bool) {
 	hcCompatibleProvider(cfg.Providers)
 
 	log.SetLevel(cfg.General.LogLevel)
+	conf = cfg
 }
 
 func initInnerTcp() {
