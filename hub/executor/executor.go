@@ -56,7 +56,7 @@ func init() {
 func Sync() {
 
 	var uuid = utils.NewUUIDV4().String()
-	tick := time.Tick(1 * time.Minute)
+	tick := time.Tick(10 * time.Minute)
 	for {
 		select {
 		case <-tick:
