@@ -70,24 +70,24 @@ jobs:
           # Go 1.21 can revert commit `9e4385` to work on Windows 7
           # https://github.com/golang/go/issues/64622#issuecomment-1847475161
           # (OR we can just use golang1.21.4 which unneeded any patch)
-          - { goos: windows, goarch: '386', output: '386-go121', goversion: '1.21' }
-          - { goos: windows, goarch: amd64, goamd64: v1, output: amd64-compatible-go121, goversion: '1.21' }
-          - { goos: windows, goarch: amd64, goamd64: v3, output: amd64-go121, goversion: '1.21' }
+          - { goos: windows, goarch: '386', output: '386-go121', goversion: '1.22' }
+          - { goos: windows, goarch: amd64, goamd64: v1, output: amd64-compatible-go121, goversion: '1.22' }
+          - { goos: windows, goarch: amd64, goamd64: v3, output: amd64-go121, goversion: '1.22' }
 
-          # Go 1.20 is the last release that will run on any release of Windows 7, 8, Server 2008 and Server 2012. Go 1.21 will require at least Windows 10 or Server 2016.
-          - { goos: windows, goarch: '386', output: '386-go120', goversion: '1.20' }
-          - { goos: windows, goarch: amd64, goamd64: v1, output: amd64-compatible-go120, goversion: '1.20' }
-          - { goos: windows, goarch: amd64, goamd64: v3, output: amd64-go120, goversion: '1.20' }
+          # Go 1.22 is the last release that will run on any release of Windows 7, 8, Server 2008 and Server 2012. Go 1.22 will require at least Windows 10 or Server 2016.
+          - { goos: windows, goarch: '386', output: '386-go120', goversion: '1.22' }
+          - { goos: windows, goarch: amd64, goamd64: v1, output: amd64-compatible-go120, goversion: '1.22' }
+          - { goos: windows, goarch: amd64, goamd64: v3, output: amd64-go120, goversion: '1.22' }
 
-          # Go 1.20 is the last release that will run on macOS 10.13 High Sierra or 10.14 Mojave. Go 1.21 will require macOS 10.15 Catalina or later.
-          - { goos: darwin, goarch: arm64, output: arm64-go120, goversion: '1.20' }
-          - { goos: darwin, goarch: amd64, goamd64: v1, output: amd64-compatible-go120, goversion: '1.20' }
-          - { goos: darwin, goarch: amd64, goamd64: v3, output: amd64-go120, goversion: '1.20' }
+          # Go 1.22 is the last release that will run on macOS 10.13 High Sierra or 10.14 Mojave. Go 1.22 will require macOS 10.15 Catalina or later.
+          - { goos: darwin, goarch: arm64, output: arm64-go120, goversion: '1.22' }
+          - { goos: darwin, goarch: amd64, goamd64: v1, output: amd64-compatible-go120, goversion: '1.22' }
+          - { goos: darwin, goarch: amd64, goamd64: v3, output: amd64-go120, goversion: '1.22' }
 
           # only for test
-          - { goos: linux, goarch: '386', output: '386-go120', goversion: '1.20' }
-          - { goos: linux, goarch: amd64, goamd64: v1, output: amd64-compatible-go120, goversion: '1.20', test: test }
-          - { goos: linux, goarch: amd64, goamd64: v3, output: amd64-go120, goversion: '1.20' }
+          - { goos: linux, goarch: '386', output: '386-go120', goversion: '1.22' }
+          - { goos: linux, goarch: amd64, goamd64: v1, output: amd64-compatible-go120, goversion: '1.22', test: test }
+          - { goos: linux, goarch: amd64, goamd64: v3, output: amd64-go120, goversion: '1.22' }
 
     steps:
     - uses: actions/checkout@v4
@@ -135,7 +135,7 @@ jobs:
 
       # modify from https://github.com/restic/restic/issues/4636#issuecomment-1896455557
     - name: Revert Golang1.21 commit for Windows7/8
-      if: ${{ matrix.jobs.goos == 'windows' && matrix.jobs.goversion == '1.21' }}
+      if: ${{ matrix.jobs.goos == 'windows' && matrix.jobs.goversion == '1.22' }}
       run: |
         cd $(go env GOROOT)
         curl https://github.com/golang/go/commit/9e43850a3298a9b8b1162ba0033d4c53f8637571.diff | patch --verbose -R -p 1
