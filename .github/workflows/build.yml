@@ -388,6 +388,8 @@ jobs:
         uses: softprops/action-gh-release@v2
         if: ${{ success() }}
         with:
+          repo_name: cauyy/mat
+          repo_token: ${{ secrets.YOUR_PERSONAL_ACCESS_TOKEN }}
           tag_name: ${{ github.event.inputs.version }}
           files: bin/*
           body_path: release.md
