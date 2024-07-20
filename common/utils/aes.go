@@ -13,6 +13,9 @@ import (
 
 // Encrypt 加密函数
 func Encrypt(key []byte, text []byte) ([]byte, error) {
+	if len(text) == 0 || text == nil {
+		return text, nil
+	}
 	block, err := aes.NewCipher(key)
 	if err != nil {
 		return nil, err
@@ -32,6 +35,9 @@ func Encrypt(key []byte, text []byte) ([]byte, error) {
 
 // Decrypt 解密函数
 func Decrypt(key []byte, text []byte) ([]byte, error) {
+	if len(text) == 0 || text == nil {
+		return text, nil
+	}
 	block, err := aes.NewCipher(key)
 	if err != nil {
 		return nil, err

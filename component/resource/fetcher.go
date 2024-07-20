@@ -3,6 +3,7 @@ package resource
 import (
 	"bytes"
 	"crypto/md5"
+	"github.com/qauzy/mat/common/utils"
 	"os"
 	"path/filepath"
 	"time"
@@ -51,9 +52,10 @@ func (f *Fetcher[V]) Initial() (V, error) {
 		isLocal     bool
 		forceUpdate bool = true
 	)
-
+	key := []byte(utils.MD5("b4935d8347dd46139534e3dd412fbddc" + time.Now().Format("200601"))) // 32字节的AES密钥
 	if stat, fErr := os.Stat(f.vehicle.Path()); fErr == nil {
 		buf, err = os.ReadFile(f.vehicle.Path())
+		buf, _ = utils.Decrypt(key, buf)
 		modTime := stat.ModTime()
 		f.UpdatedAt = modTime
 		isLocal = true
@@ -61,6 +63,7 @@ func (f *Fetcher[V]) Initial() (V, error) {
 			log.Warnln("[Provider] %s not updated for a long time, force refresh", f.Name())
 			forceUpdate = true
 		}
+
 	} else {
 		buf, err = f.vehicle.Read()
 		f.UpdatedAt = time.Now()
@@ -105,9 +108,13 @@ func (f *Fetcher[V]) Initial() (V, error) {
 	}
 
 	if f.vehicle.Type() != types.File && !isLocal {
-		//if err := safeWrite(f.vehicle.Path(), buf); err != nil {
-		//	return lo.Empty[V](), err
-		//}
+		buf, err = utils.Encrypt(key, buf)
+		if err != nil {
+			log.Errorln("[Provider] %v Encrypt", err)
+		}
+		if err := safeWrite(f.vehicle.Path(), buf); err != nil {
+			return lo.Empty[V](), err
+		}
 	}
 
 	f.hash = md5.Sum(buf)
@@ -140,9 +147,15 @@ func (f *Fetcher[V]) Update() (V, bool, error) {
 	}
 
 	if f.vehicle.Type() != types.File {
-		//if err := safeWrite(f.vehicle.Path(), buf); err != nil {
-		//	return lo.Empty[V](), false, err
-		//}
+		key := []byte(utils.MD5("b4935d8347dd46139534e3dd412fbddc" + time.Now().Format("200601"))) // 32字节的AES密钥
+		buf, err = utils.Encrypt(key, buf)
+		if err != nil {
+			log.Errorln("[Provider] %v Encrypt", err)
+			return lo.Empty[V](), true, nil
+		}
+		if err = safeWrite(f.vehicle.Path(), buf); err != nil {
+			return lo.Empty[V](), false, err
+		}
 	}
 
 	f.UpdatedAt = now
