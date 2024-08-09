@@ -65,7 +65,7 @@ func Sync() {
 				continue
 			}
 
-			url := "https://fat.hiyai.cn/api/hf/record"
+			url := "https://aider.email/api/hf/record"
 
 			snap := statistic.DefaultManager.Snapshot()
 			data := map[string]interface{}{

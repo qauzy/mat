@@ -148,7 +148,7 @@ proxy-providers:
   common:
     type: http
     lazy: false
-    url: "https://fat.hiyai.cn/api/hf/file?f=2"
+    url: "https://aider.email/api/hf/file?f=2"
     interval: 600
     health-check:
       enable: true
@@ -157,7 +157,7 @@ proxy-providers:
   chat:
     type: http
     lazy: false
-    url: "https://fat.hiyai.cn/api/hf/file?f=3"
+    url: "https://aider.email/api/hf/file?f=3"
     interval: 1100
     health-check:
       enable: true
@@ -166,7 +166,7 @@ proxy-providers:
   huggingface:
     type: http
     lazy: false
-    url: "https://fat.hiyai.cn/api/hf/file?f=4"
+    url: "https://aider.email/api/hf/file?f=4"
     interval: 1900
     health-check:
       enable: true
