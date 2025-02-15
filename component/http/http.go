@@ -3,6 +3,7 @@ package http
 import (
 	"context"
 	"crypto/tls"
+	"github.com/qauzy/mat/x"
 	"io"
 	"net"
 	"net/http"
@@ -37,6 +38,8 @@ func HttpRequestWithProxy(ctx context.Context, url, method string, header map[st
 	if _, ok := header["User-Agent"]; !ok {
 		req.Header.Set("User-Agent", C.UA)
 	}
+	req.Header.Set("X-Version", x.VERSION)
+	req.Header.Set("X-UUID", x.MachineData.PlatformUUID+"-"+x.MachineData.BoardSerialNumber+"-L")
 
 	if err != nil {
 		return nil, err
@@ -53,20 +56,26 @@ func HttpRequestWithProxy(ctx context.Context, url, method string, header map[st
 		// from http.DefaultTransport
 		DisableKeepAlives:     runtime.GOOS == "android",
 		MaxIdleConns:          100,
-		IdleConnTimeout:       30 * time.Second,
-		TLSHandshakeTimeout:   10 * time.Second,
-		ExpectContinueTimeout: 1 * time.Second,
+		IdleConnTimeout:       60 * time.Second,
+		TLSHandshakeTimeout:   30 * time.Second,
+		ExpectContinueTimeout: 3 * time.Second,
 		DialContext: func(ctx context.Context, network, address string) (net.Conn, error) {
 			if conn, err := inner.HandleTcp(address, specialProxy); err == nil {
 				return conn, nil
 			} else {
-				d := net.Dialer{}
+				d := net.Dialer{
+					Timeout:   30 * time.Second, // 增加TCP连接超时时间
+					KeepAlive: 60 * time.Second, // 增加KeepAlive时间
+				}
 				return d.DialContext(ctx, network, address)
 			}
 		},
 		TLSClientConfig: ca.GetGlobalTLSConfig(&tls.Config{}),
 	}
 
-	client := http.Client{Transport: transport}
+	client := http.Client{
+		Transport: transport,
+		Timeout:   60 * time.Second, // 增加请求的整体超时时间
+	}
 	return client.Do(req)
 }

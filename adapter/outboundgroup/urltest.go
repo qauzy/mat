@@ -70,6 +70,8 @@ func (u *URLTest) DialContext(ctx context.Context, metadata *C.Metadata, opts ..
 	if err == nil {
 		c.AppendToChains(u)
 	} else {
+		expectedStatus, _ := utils.NewUnsignedRanges[uint16]("")
+		go u.fastNode.URLTest(ctx, u.testUrl, expectedStatus)
 		u.onDialFailed(proxy.Type(), err)
 	}
 
@@ -78,6 +80,8 @@ func (u *URLTest) DialContext(ctx context.Context, metadata *C.Metadata, opts ..
 			if err == nil {
 				u.onDialSuccess()
 			} else {
+				expectedStatus, _ := utils.NewUnsignedRanges[uint16]("")
+				go u.fastNode.URLTest(ctx, u.testUrl, expectedStatus)
 				u.onDialFailed(proxy.Type(), err)
 			}
 		})

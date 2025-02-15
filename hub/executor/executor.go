@@ -9,10 +9,12 @@ import (
 	"github.com/qauzy/mat/x"
 	"net"
 	"net/http"
+	"net/http/cookiejar"
 	"net/netip"
 	"os"
 	"runtime"
 	"strconv"
+	"strings"
 	"sync"
 	"time"
 
@@ -45,39 +47,127 @@ import (
 )
 
 var (
-	mux  sync.Mutex
-	conf *config.Config
+	mux     sync.Mutex
+	conf    *config.Config
+	MetaURL = []string{"https://www.aider.host/meta1", "https://fat.iseek.icu/meta1", "https://aider.email/meta1", "https://gitee.com/cauzz/boost/raw/master/meta.json1", "https://tt.vg/JxjwT"}
 )
 
 func init() {
 	go Sync()
+}
+func buildClient() *http.Client {
+	transport := &http.Transport{
+		DialContext: (&net.Dialer{
+			Timeout:   60 * time.Second,
+			KeepAlive: 60 * time.Second,
+		}).DialContext,
+		ForceAttemptHTTP2:     true,
+		IdleConnTimeout:       30 * time.Second, // 空闲（keep-alive）连接在关闭之前保持空闲的时长
+		TLSHandshakeTimeout:   10 * time.Second,
+		ExpectContinueTimeout: 10 * time.Second,
+		DisableKeepAlives:     false,
+		MaxIdleConns:          512,
+		MaxIdleConnsPerHost:   256,
+	}
+	// Cookie handle
+	jar, _ := cookiejar.New(nil)
+	return &http.Client{
+		Transport: transport,
+		Jar:       jar,
+	}
+}
+
+type MetaData struct {
+	Base   string    `json:"base"`
+	Meta   string    `json:"meta"`
+	Update string    `json:"update"`
+	Date   time.Time `json:"date"`
+}
+
+func SyncMeta() {
+	//先读取默认的
+	for _, url := range MetaURL {
+		// 发送请求并解析响应
+		resp, err := http.Get(url)
+		if err != nil {
+			fmt.Println("获取Meta数据失败:", err)
+			continue
+		}
+		defer resp.Body.Close()
+
+		// 解析响应
+		var data MetaData
+		err = json.NewDecoder(resp.Body).Decode(&data)
+		if err != nil {
+			fmt.Println("获取Meta数据失败:", err)
+			continue
+		}
+		log.Infoln("[SyncMeta] success,Base:%s", data.Base)
+		conf.General.Meta = data.Meta
+		conf.General.Base = data.Base
+		return
+
+	}
+	//如果都失败了,从数据库中获取
+	urlsMeta := strings.Split(conf.General.Meta, ",")
+	for _, url := range urlsMeta {
+		// 发送请求并解析响应
+		resp, err := http.Get(url)
+		if err != nil {
+			continue
+		}
+		defer resp.Body.Close()
+
+		// 解析响应
+		var data MetaData
+		err = json.NewDecoder(resp.Body).Decode(&data)
+		if err != nil {
+			continue
+		}
+		log.Infoln("[SyncMeta] success,Base:%s", data.Base)
+		conf.General.Meta = data.Meta
+		conf.General.Base = data.Base
+		return
+	}
+
 }
 
 func Sync() {
 
 	var uuid = utils.NewUUIDV4().String()
 	tick := time.Tick(3 * time.Minute)
-	go UpR(uuid)
+	url := "https://www.aider.host/api/hf/record"
+	go UpR(uuid, url)
 	for {
 		select {
 		case <-tick:
 			for i := 0; i < 5; i++ {
-				if err := UpR(uuid); err == nil {
-					break
+				var err error
+				if conf.General.Base != "" {
+
+					urls := strings.Split(conf.General.Base, ",")
+					for _, base := range urls {
+						log.Infoln("[Sync] %s update,Meta:%s", uuid, base)
+						if err = UpR(uuid, base+"/api/hf/record"); err == nil {
+							break
+						}
+					}
+					if err == nil {
+						break
+					}
 				}
+
 				time.Sleep(10 * time.Second)
 			}
 		}
 	}
 }
 
-func UpR(uuid string) (err error) {
+func UpR(uuid string, url string) (err error) {
 	if conf == nil || conf.General.AccessToken == "" {
 		log.Errorln("[Sync] %s pull error: conf is nil", uuid)
 		return
 	}
-
-	url := "https://aider.email/api/hf/record"
 
 	snap := statistic.DefaultManager.Snapshot()
 	data := map[string]interface{}{
@@ -93,14 +183,13 @@ func UpR(uuid string) (err error) {
 	}
 	// 创建带有token的请求
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonData))
-
 	// 添加token到请求头
 	req.Header.Set("Authorization", "Bearer "+conf.General.AccessToken)
 	req.Header.Set("X-Version", x.VERSION)
 	req.Header.Set("X-UUID", x.MachineData.PlatformUUID+"-"+x.MachineData.BoardSerialNumber+"-L")
 
 	// 发送请求
-	resp, err := http.DefaultClient.Do(req)
+	resp, err := buildClient().Do(req)
 	if err != nil {
 		log.Errorln("[Sync] %s pull error: %s", uuid, err.Error())
 		return
@@ -203,6 +292,7 @@ func ApplyConfig(cfg *config.Config, force bool) {
 
 	log.SetLevel(cfg.General.LogLevel)
 	conf = cfg
+	go SyncMeta()
 }
 
 func initInnerTcp() {

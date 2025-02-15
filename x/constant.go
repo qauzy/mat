@@ -3,7 +3,7 @@ package x
 import "github.com/super-l/machine-code/machine"
 
 const (
-	VERSION          = "1.0.7"
+	VERSION          = "2.1.1"
 	HuggingfaceToken = "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"
 )
 

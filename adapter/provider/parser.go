@@ -54,6 +54,7 @@ type proxyProviderSchema struct {
 	ExcludeType   string              `provider:"exclude-type,omitempty"`
 	DialerProxy   string              `provider:"dialer-proxy,omitempty"`
 	AccessToken   string              `provider:"access-token,omitempty"` // this token is for system management
+	Base          string              `provider:"base,omitempty"`
 	HealthCheck   healthCheckSchema   `provider:"health-check,omitempty"`
 	Override      OverrideSchema      `provider:"override,omitempty"`
 	Header        map[string][]string `provider:"header,omitempty"`

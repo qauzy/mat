@@ -64,7 +64,7 @@ func (h *HTTPVehicle) Proxy() string {
 }
 
 func (h *HTTPVehicle) Read() ([]byte, error) {
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second*20)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*60)
 	defer cancel()
 	up, down := statistic.DefaultManager.Statistic()
 	resp, err := matHttp.HttpRequestWithProxy(ctx, fmt.Sprintf("%s&bit=%d", h.url, up+down), http.MethodGet, h.header, nil, h.proxy)
@@ -83,7 +83,7 @@ func (h *HTTPVehicle) Read() ([]byte, error) {
 
 	//是加密数据
 	if key != "" {
-		buf, err = utils.Decrypt([]byte(key[4:]), buf)
+		buf, err = utils.Decrypt([]byte(key[6:]), buf)
 		if err != nil {
 			return nil, err
 		}
