@@ -84,7 +84,7 @@ type MetaData struct {
 	Date   time.Time `json:"date"`
 }
 
-func SyncMeta() {
+func SyncMeta(cfg *config.Config) {
 	//先读取默认的
 	for _, url := range MetaURL {
 		// 发送请求并解析响应
@@ -103,13 +103,13 @@ func SyncMeta() {
 			continue
 		}
 		log.Infoln("[SyncMeta] success,Base:%s", data.Base)
-		conf.General.Meta = data.Meta
-		conf.General.Base = data.Base
+		cfg.General.Meta = data.Meta
+		cfg.General.Base = data.Base
 		return
 
 	}
 	//如果都失败了,从数据库中获取
-	urlsMeta := strings.Split(conf.General.Meta, ",")
+	urlsMeta := strings.Split(cfg.General.Meta, ",")
 	for _, url := range urlsMeta {
 		// 发送请求并解析响应
 		resp, err := http.Get(url)
@@ -125,8 +125,8 @@ func SyncMeta() {
 			continue
 		}
 		log.Infoln("[SyncMeta] success,Base:%s", data.Base)
-		conf.General.Meta = data.Meta
-		conf.General.Base = data.Base
+		cfg.General.Meta = data.Meta
+		cfg.General.Base = data.Base
 		return
 	}
 
@@ -153,6 +153,10 @@ func Sync() {
 						}
 					}
 					if err == nil {
+						break
+					}
+				} else {
+					if err = UpR(uuid, url); err == nil {
 						break
 					}
 				}
@@ -292,7 +296,7 @@ func ApplyConfig(cfg *config.Config, force bool) {
 
 	log.SetLevel(cfg.General.LogLevel)
 	conf = cfg
-	go SyncMeta()
+	go SyncMeta(cfg)
 }
 
 func initInnerTcp() {
