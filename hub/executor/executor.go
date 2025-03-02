@@ -49,7 +49,7 @@ import (
 var (
 	mux     sync.Mutex
 	conf    *config.Config
-	MetaURL = []string{"https://www.aider.host/meta1", "https://fat.iseek.icu/meta1", "https://aider.email/meta1", "https://gitee.com/cauzz/boost/raw/master/meta.json1", "https://tt.vg/JxjwT"}
+	MetaURL = []string{"https://www.aider.host/meta", "https://fat.iseek.icu/meta", "https://aider.email/meta", "https://gitee.com/cauzz/boost/raw/master/meta.json", "https://tt.vg/JxjwT"}
 )
 
 func init() {
