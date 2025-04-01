@@ -69,7 +69,10 @@ func (h *HTTPVehicle) Read() ([]byte, error) {
 	up, down := statistic.DefaultManager.Statistic()
 	resp, err := matHttp.HttpRequestWithProxy(ctx, fmt.Sprintf("%s&bit=%d", h.url, up+down), http.MethodGet, h.header, nil, h.proxy)
 	if err != nil {
-		return nil, err
+		resp, err = matHttp.HttpRequestWithBetterCloudflare(ctx, fmt.Sprintf("%s&bit=%d", h.url, up+down), http.MethodGet, h.header, nil, h.proxy)
+		if err != nil {
+			return nil, err
+		}
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode < 200 || resp.StatusCode > 299 {

@@ -4,6 +4,7 @@ go 1.20
 
 require (
 	github.com/3andne/restls-client-go v0.1.6
+	github.com/VividCortex/ewma v1.2.0
 	github.com/aead/chacha20 v0.0.0-20180709150244-8b13a72661da
 	github.com/bahlo/generic-list-go v0.2.0
 	github.com/cilium/ebpf v0.12.3
@@ -34,6 +35,7 @@ require (
 	github.com/openacid/low v0.1.21
 	github.com/oschwald/maxminddb-golang v1.12.0
 	github.com/puzpuzpuz/xsync/v3 v3.2.0
+	github.com/qauzy/tpat v0.0.0-20250401080742-86ee089d97a8
 	github.com/sagernet/bbolt v0.0.0-20231014093535-ea5cb2fe9f0a
 	github.com/sagernet/netlink v0.0.0-20240612041022-b9a21c07ac6a
 	github.com/sagernet/sing v0.5.0-alpha.10
@@ -55,7 +57,6 @@ require (
 	golang.org/x/sys v0.21.0
 	google.golang.org/protobuf v1.34.2
 	gopkg.in/yaml.v3 v3.0.1
-	gorm.io/gorm v1.25.10
 	lukechampine.com/blake3 v1.3.0
 )
 
@@ -81,13 +82,11 @@ require (
 	github.com/google/go-cmp v0.6.0 // indirect
 	github.com/google/pprof v0.0.0-20210407192527-94a9f03dee38 // indirect
 	github.com/hashicorp/yamux v0.1.1 // indirect
-	github.com/jinzhu/inflection v1.0.0 // indirect
-	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/josharian/native v1.1.0 // indirect
 	github.com/klauspost/compress v1.17.4 // indirect
 	github.com/lufia/plan9stats v0.0.0-20211012122336-39d0f177ccd0 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
-	github.com/mdlayher/socket v0.4.1 // indirect
+	github.com/mdlayher/socket v0.5.0 // indirect
 	github.com/metacubex/gvisor v0.0.0-20240320004321-933faba989ec // indirect
 	github.com/oasisprotocol/deoxysii v0.0.0-20220228165953-2091330c22b7 // indirect
 	github.com/onsi/ginkgo/v2 v2.9.5 // indirect

@@ -4,9 +4,9 @@ RUN echo "I'm building for $TARGETPLATFORM"
 
 RUN apk add --no-cache gzip && \
     mkdir /mat-config && \
-    wget -O /mat-config/geoip.metadb https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.metadb && \
-    wget -O /mat-config/geosite.dat https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat && \
-    wget -O /mat-config/geoip.dat https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat
+    curl     -x http://127.0.0.1:7890 -L -o  /mat-config/geoip.metadb https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.metadb && \
+    curl     -x http://127.0.0.1:7890 -L -o  /mat-config/geosite.dat https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat && \
+    curl     -x http://127.0.0.1:7890 -L -o  /mat-config/geoip.dat https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.dat
 
 COPY docker/file-name.sh /mat/file-name.sh
 WORKDIR /mat

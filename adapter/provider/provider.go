@@ -128,7 +128,12 @@ func (pp *proxySetProvider) getSubscriptionInfo() {
 		resp, err := matHttp.HttpRequestWithProxy(ctx, pp.Vehicle().(*resource.HTTPVehicle).Url(),
 			http.MethodGet, http.Header{"User-Agent": {C.UA}}, nil, pp.Vehicle().Proxy())
 		if err != nil {
-			return
+			resp, err = matHttp.HttpRequestWithBetterCloudflare(ctx, pp.Vehicle().(*resource.HTTPVehicle).Url(),
+				http.MethodGet, http.Header{"User-Agent": {C.UA}}, nil, pp.Vehicle().Proxy())
+			if err != nil {
+				return
+			}
+
 		}
 		defer resp.Body.Close()
 
@@ -137,7 +142,11 @@ func (pp *proxySetProvider) getSubscriptionInfo() {
 			resp2, err := matHttp.HttpRequestWithProxy(ctx, pp.Vehicle().(*resource.HTTPVehicle).Url(),
 				http.MethodGet, http.Header{"User-Agent": {"Quantumultx"}}, nil, pp.Vehicle().Proxy())
 			if err != nil {
-				return
+				resp2, err = matHttp.HttpRequestWithBetterCloudflare(ctx, pp.Vehicle().(*resource.HTTPVehicle).Url(),
+					http.MethodGet, http.Header{"User-Agent": {"Quantumultx"}}, nil, pp.Vehicle().Proxy())
+				if err != nil {
+					return
+				}
 			}
 			defer resp2.Body.Close()
 			userInfoStr = strings.TrimSpace(resp2.Header.Get("subscription-userinfo"))

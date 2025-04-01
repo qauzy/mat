@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/qauzy/mat/cloudflare"
 	"github.com/qauzy/mat/common/utils"
 	"github.com/qauzy/mat/tunnel/statistic"
 	"github.com/qauzy/mat/x"
@@ -195,8 +196,11 @@ func UpR(uuid string, url string) (err error) {
 	// 发送请求
 	resp, err := buildClient().Do(req)
 	if err != nil {
-		log.Errorln("[Sync] %s pull error: %s", uuid, err.Error())
-		return
+		resp, err = cloudflare.ExecuteCloudflareRequest(req)
+		if err != nil {
+			log.Errorln("[Sync] %s pull error: %s", uuid, err.Error())
+			return
+		}
 	}
 	defer resp.Body.Close()
 	type CommonResult struct {
