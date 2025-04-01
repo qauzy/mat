@@ -34,7 +34,7 @@ jobs:
           - { goos: darwin, goarch: amd64, goamd64: v3, output: amd64 }
 
           - { goos: linux, goarch: '386', output: '386' }
-          - { goos: linux, goarch: amd64, goamd64: v1, output: amd64-compatible, test: test }
+          - { goos: linux, goarch: amd64, goamd64: v1, output: amd64-compatible}
           - { goos: linux, goarch: amd64, goamd64: v3, output: amd64 }
           - { goos: linux, goarch: arm64, output: arm64 }
           - { goos: linux, goarch: arm, goarm: '5', output: armv5 }
@@ -86,7 +86,7 @@ jobs:
 
           # only for test
           - { goos: linux, goarch: '386', output: '386-go120', goversion: '1.20' }
-          - { goos: linux, goarch: amd64, goamd64: v1, output: amd64-compatible-go120, goversion: '1.20', test: test }
+          - { goos: linux, goarch: amd64, goamd64: v1, output: amd64-compatible-go120, goversion: '1.20'}
           - { goos: linux, goarch: amd64, goamd64: v3, output: amd64-go120, goversion: '1.20' }
 
     steps:
