@@ -34,15 +34,33 @@ jobs:
           - { goos: darwin, goarch: amd64, goamd64: v3, output: amd64 }
 
           - { goos: linux, goarch: '386', output: '386' }
-          - { goos: linux, goarch: amd64, goamd64: v1, output: amd64-compatible}
+          - { goos: linux, goarch: amd64, goamd64: v1, output: amd64-compatible, test: test }
           - { goos: linux, goarch: amd64, goamd64: v3, output: amd64 }
           - { goos: linux, goarch: arm64, output: arm64 }
+          - { goos: linux, goarch: arm, goarm: '5', output: armv5 }
+          - { goos: linux, goarch: arm, goarm: '6', output: armv6 }
+          - { goos: linux, goarch: arm, goarm: '7', output: armv7 }
+          - { goos: linux, goarch: mips, gomips: hardfloat, output: mips-hardfloat }
+          - { goos: linux, goarch: mips, gomips: softfloat, output: mips-softfloat }
+          - { goos: linux, goarch: mipsle, gomips: hardfloat, output: mipsle-hardfloat }
+          - { goos: linux, goarch: mipsle, gomips: softfloat, output: mipsle-softfloat }
+          - { goos: linux, goarch: mips64, output: mips64 }
+          - { goos: linux, goarch: mips64le, output: mips64le }
+          - { goos: linux, goarch: loong64, output: loong64-abi1, abi: '1' }
+          - { goos: linux, goarch: loong64, output: loong64-abi2, abi: '2' }
+          - { goos: linux, goarch: riscv64, output: riscv64 }
+          - { goos: linux, goarch: s390x, output: s390x }
 
           - { goos: windows, goarch: '386', output: '386' }
           - { goos: windows, goarch: amd64, goamd64: v1, output: amd64-compatible }
           - { goos: windows, goarch: amd64, goamd64: v3, output: amd64 }
+          - { goos: windows, goarch: arm, goarm: '7', output: armv7 }
           - { goos: windows, goarch: arm64, output: arm64 }
 
+          - { goos: freebsd, goarch: '386', output: '386' }
+          - { goos: freebsd, goarch: amd64, goamd64: v1, output: amd64-compatible }
+          - { goos: freebsd, goarch: amd64, goamd64: v3, output: amd64 }
+          - { goos: freebsd, goarch: arm64, output: arm64 }
 
           - { goos: android, goarch: '386', ndk: i686-linux-android34, output: '386' }
           - { goos: android, goarch: amd64, ndk: x86_64-linux-android34, output: amd64 }
@@ -66,6 +84,10 @@ jobs:
           - { goos: darwin, goarch: amd64, goamd64: v1, output: amd64-compatible-go120, goversion: '1.20' }
           - { goos: darwin, goarch: amd64, goamd64: v3, output: amd64-go120, goversion: '1.20' }
 
+          # only for test
+          - { goos: linux, goarch: '386', output: '386-go120', goversion: '1.20' }
+          - { goos: linux, goarch: amd64, goamd64: v1, output: amd64-compatible-go120, goversion: '1.20', test: test }
+          - { goos: linux, goarch: amd64, goamd64: v3, output: amd64-go120, goversion: '1.20' }
 
     steps:
       - uses: actions/checkout@v4
@@ -164,11 +186,10 @@ jobs:
           GOOS: ${{matrix.jobs.goos}}
           GOARCH: ${{matrix.jobs.goarch}}
           GOAMD64: ${{matrix.jobs.goamd64}}
-          GOARM: ${{matrix.jobs.arm}}
-          GOMIPS: ${{matrix.jobs.mips}}
+          GOARM: ${{matrix.jobs.goarm}}
+          GOMIPS: ${{matrix.jobs.gomips}}
         run: |
           echo $CGO_ENABLED
-          go mod tidy
           go build -v -tags "with_gvisor" -trimpath -ldflags "${BUILDTAG} -X 'github.com/qauzy/mat/constant.Version=${VERSION}' -X 'github.com/qauzy/mat/constant.BuildTime=${BUILDTIME}' -w -s -buildid="
           if [ "${{matrix.jobs.goos}}" = "windows" ]; then
             cp mat.exe mat-${{matrix.jobs.goos}}-${{matrix.jobs.output}}.exe
