@@ -190,6 +190,7 @@ jobs:
           GOMIPS: ${{matrix.jobs.mips}}
         run: |
           echo $CGO_ENABLED
+          go mod tidy
           go build -v -tags "with_gvisor" -trimpath -ldflags "${BUILDTAG} -X 'github.com/qauzy/mat/constant.Version=${VERSION}' -X 'github.com/qauzy/mat/constant.BuildTime=${BUILDTIME}' -w -s -buildid="
           if [ "${{matrix.jobs.goos}}" = "windows" ]; then
             cp mat.exe mat-${{matrix.jobs.goos}}-${{matrix.jobs.output}}.exe
